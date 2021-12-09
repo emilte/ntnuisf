@@ -1,0 +1,53 @@
+{% extends 'songs/base.html' %}
+{% load static %}
+
+{% block title %}Alle tags{% endblock %}
+
+{% block head %}
+
+    <link rel="stylesheet" href="{% static "songs/css/song_styles.css" %}">
+
+    <style>
+        #btn-add-tag {
+            position: sticky;
+            top: 3.7em;
+            z-index: 5;
+        }
+
+        {{ request.user.settings.song_theme.as_css }}
+    </style>
+{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{% url 'songs:all_tags' %}">Alle tags</a></li>
+{% endblock %}
+
+{% block body %}
+    <div class="default-theme user-theme">
+
+        <h1>Alle Tags:</h1>
+
+        {% if perms.songs.add_tag %}
+            <span id="btn-add-tag" class="">
+                <a  class="btn btn-secondary" href="{% url 'songs:add_tag' %}">
+                    <img src="https://img.icons8.com/material-rounded/25/000000/plus-math.png">
+                    Legg til tag
+                </a>
+            </span>
+        {% endif %}
+
+        <div class="">
+            {% for tag in tags %}
+                <span class="">
+                    <a href="{% url 'songs:edit_tag' tag.id %}">{{ tag.title }}</a>
+                    {% for context in tag.context_list %}
+                        <span class="badge badge-pill badge-secondary">{{ context }}</span>
+                    {% endfor %}
+
+                </span>
+                <br>
+            {% endfor %}
+        </div>
+
+    </div>
+{% endblock %}

@@ -1,0 +1,8 @@
+templates
+static
+staticroot
+media
+mediaroot
+venv
+.venv
+.pytest_cache

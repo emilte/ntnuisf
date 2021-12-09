@@ -1,0 +1,195 @@
+$font-color: blue;
+
+html {
+    /* Document renders as 100% */
+    box-sizing: border-box;
+    /* height: 50vh !important;  */
+    /* overflow-x: hidden; */
+}
+
+body {
+    background-size: 100% auto;
+    background-position: top left;
+    background-repeat: repeat-y;
+    background-color: #0d0d0d;
+
+    /* Needed for natural element flow */
+    position: relative;
+
+    /* Because of navbar (fixed) */
+    padding-top: 4.5em !important;
+
+    color: $font-color;
+    cursor: url('/static/main/img/cursor.png'), auto;
+}
+
+.text-underline {
+    text-decoration: underline;
+}
+
+
+[required] {
+    /* background-color: rgba(255, 220, 220, 1); */
+    /* background-color: rgba(200, 240, 255, 1); */
+}
+
+span {
+    display: inline;
+}
+
+.select2-container .select2-selection--single {
+    height: calc(1.5em + .75rem + 2px) !important;
+}
+
+.input-group-text-custom {
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+}
+
+.font-bold {
+    font-weight: bold;
+}
+
+.required:after {
+    content:" *";
+}
+
+.rounded-xl {
+    border-radius: 1rem !important;
+}
+
+.rounded-bottom-xl {
+  border-bottom-right-radius: 1rem !important;
+  border-bottom-left-radius: 1rem !important;
+}
+
+.bg-none {
+    background-color: rgba(0,0,0,0);
+}
+
+.bg-blur {
+    background-color: rgba(0,0,0,0);
+    backdrop-filter: blur(9px);
+    -webkit-backdrop-filter: blur(9px);
+}
+
+.bg-dark-blur {
+    background-color: rgba(0,0,0, 0.6);
+    backdrop-filter: blur(9px);
+    -webkit-backdrop-filter: blur(9px);
+}
+
+.bg-danger-blur {
+    background-color: rgba(255,0,0, 0.1);
+    backdrop-filter: blur(9px);
+    -webkit-backdrop-filter: blur(9px);
+}
+
+.bg-primary-blur {
+    background-color: rgba(0,0,255, 0.1);
+    backdrop-filter: blur(9px);
+    -webkit-backdrop-filter: blur(9px);
+}
+
+.bg-success-blur {
+    background-color: rgba(0,255,0, 0.1);
+    backdrop-filter: blur(9px);
+    -webkit-backdrop-filter: blur(9px);
+}
+
+.bg-info-blur {
+    background-color: rgba(0,255,255, 0.1);
+    backdrop-filter: blur(9px);
+    -webkit-backdrop-filter: blur(9px);
+}
+
+.bg-warning-blur {
+    background-color: rgba(255,255,0, 0.1);
+    backdrop-filter: blur(9px);
+    -webkit-backdrop-filter: blur(9px);
+}
+
+.bg-secondary-blur {
+    background-color: rgba(150,150,150, 0.1);
+    backdrop-filter: blur(9px);
+    -webkit-backdrop-filter: blur(9px);
+}
+
+.bg-light-blur {
+    background-color: rgba(255,255,255, 0.7);
+    backdrop-filter: blur(9px);
+    -webkit-backdrop-filter: blur(9px);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 0.4em;
+    height: 0.4em;
+}
+::-webkit-scrollbar-thumb {
+    /* background-color: rgba(255,200,200, 0.99); */
+    background-color: pink;
+    border-radius: 10px;
+}
+::-webkit-scrollbar-track-piece {
+    background-color: black;
+}
+
+a {
+    color: pink;
+}
+a:hover {
+    color: red;
+    text-decoration: none;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.cursor-default {
+    cursor: default;
+}
+
+.cursor-n-resize {
+    cursor: n-resize;
+}
+
+/* override styles when printing */
+@media print {
+    .no-print {
+        display: none;
+    }
+
+    a {
+        color: black;
+        text-decoration: none !important;
+    }
+
+    .print-style {
+        color: black;
+    }
+}
+
+a.a-primary {
+    color: rgb(0,180,255);
+}
+a.a-primary:hover {
+    color: cyan;
+}
+
+#breadcrumb {
+    background-color: rgba(25,25,35,0.8);
+}
+
+#content-wrapper {
+    min-height: 70vh !important;
+    max-width: 90vw;
+}
+
+/* // Medium devices (tablets, less than 992px) */
+@media (max-width: 991.98px) {
+    #content-wrapper {
+        max-width: 100vw;
+    }
+}

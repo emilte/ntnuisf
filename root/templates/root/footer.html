@@ -1,0 +1,69 @@
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'root/css/footer.css' %}"/>
+
+<!-- Footer -->
+<footer id="footer" class="footer">
+    <!-- Footer Links -->
+    <div class="container text-center text-md-center">
+        <!-- Grid row -->
+        <div class="row">
+
+            <!-- Grid column -->
+            {% if request.user.is_staff %}
+                <div class="col-md-3 mx-auto">
+                    <!-- Links -->
+                    <h5 class="font-weight-bold text-uppercase mt-3 mb-4">Adminpanel</h5>
+                  
+                    <ul class="list-unstyled">
+                        <li><a href="{% url 'admin:index' %}">Index</a></li>
+                    </ul>
+
+                </div>
+            {% endif %}
+
+            <hr class="clearfix w-100 d-md-none">
+
+            <!-- Grid column -->
+            <div class="col-md-3 mx-auto">
+                <!-- Links -->
+                <h5 class="font-weight-bold text-uppercase mt-3 mb-4">Eksempel</h5>
+
+                <ul class="list-unstyled">
+                    <li><a href="">Link 1</a></li>
+                    <li><a href="">Link 1</a></li>
+                    <li><a href="">Link 1</a></li>
+                    <li><a href="">Link 1</a></li>
+                </ul>
+
+            </div>
+
+        </div>
+        <!-- End: Grid row -->
+
+    </div>
+    <!-- End: Footer Links -->
+
+    <div class="container">
+        <!-- Social buttons -->
+        <ul class="list-unstyled list-inline text-center">
+            <li class="list-inline-item">
+                <a target="_blank" href="https://www.facebook.com/groups/1663096800625218">
+                    <img src="https://img.icons8.com/ios-glyphs/60/0065ff/facebook-circled.png">
+                </a>
+            </li>
+            <li class="list-inline-item">
+                <a target="_blank" href="https://www.instagram.com/cyberingeniorskolen/">
+                    <img src="https://img.icons8.com/ios/48/e542f4/instagram-new.png">
+                </a>
+            </li>
+        </ul>
+        <!-- Social buttons -->
+    </div>
+
+    <!-- Copyright -->
+    <div class="footer-copyright text-center py-3"> © {% now 'Y' %}
+    </div>
+    <!-- Copyright -->
+
+</footer>
+<!-- End: Footer -->

@@ -1,0 +1,13 @@
+.default-theme {
+    background-color: rgba(255,255,255,0.9);
+    color: black;
+    border-radius: 1em;
+    padding: 1em;
+}
+.default-theme a {
+    color: blue;
+}
+.default-theme a:hover {
+    cursor: pointer;
+    color: navy;
+}

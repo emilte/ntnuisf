@@ -1,0 +1,96 @@
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'root/css/navbar.css' %}"/>
+
+<!-- Navbar -->
+<nav id="nav" class="navbar navbar-expand-md bg-dark-blur fixed-top m-0 p-1">
+
+    <a class="navbar-brand ml-2" href="{% url 'home' %}">
+        <img id="logo" width="50" src='{% static "root/img/mg-150x150.png" %}' alt="">
+        <span class="d-none d-sm-none d-md-inline">
+            MG's internside
+        </span>
+    </a>
+
+    <button class="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+
+    <div class="collapse navbar-collapse mr-auto">
+        <ul class="navbar-nav mr-auto ml-3">
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="distance-dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Events
+                </a>
+                <div class="dropdown-menu bg-dark" aria-labelledby="distance-dropdown" style="">
+                    <a class="dropdown-item text-light" href="{% url 'events:all_events' %}">Alle events</a>
+                    <a class="dropdown-item text-light" href="{% url 'events:add_event' %}">Opprett events</a>
+                    <!--
+                    <a class="dropdown-item text-light" href="">Resultater</a>
+                    <a class="dropdown-item text-light" href="">Statistikk</a>
+                    -->
+                </div>
+            </li>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="distance-dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Wiki
+                </a>
+                <div class="dropdown-menu bg-dark" aria-labelledby="distance-dropdown" style="">
+                    <a class="dropdown-item text-light" href="{% url 'wiki:dashboard' %}">Dashboard</a>
+                    <a class="dropdown-item text-light" href="{% url 'wiki:add_folder' %}">Opprett mappe</a>
+                    <a class="dropdown-item text-light" href="{% url 'wiki:add_page' %}">Opprett side</a>
+                    <!--
+                    <a class="dropdown-item text-light" href="">Resultater</a>
+                    <a class="dropdown-item text-light" href="">Statistikk</a>
+                    -->
+                </div>
+            </li>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="distance-dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Galleri
+                </a>
+                <div class="dropdown-menu bg-dark" aria-labelledby="distance-dropdown" style="">
+                    <a class="dropdown-item text-light" href="{% url 'gallery:all_quotations' %}">Alle sitater</a>
+                    <a class="dropdown-item text-light" href="{% url 'gallery:add_quotation' %}">Legg til sitat</a>
+                    <a class="dropdown-item text-light" href="{% url 'gallery:favorite_quotations' %}">Dine favoritt sitater</a>
+                    <a class="dropdown-item text-light" href="{% url 'gallery:all_uploads' %}">Alle opplastninger</a>
+                    <a class="dropdown-item text-light" href="{% url 'gallery:upload' %}">Last opp fil/bilde</a>
+                    <!--
+                    <a class="dropdown-item text-light" href="">Resultater</a>
+                    <a class="dropdown-item text-light" href="">Statistikk</a>
+                    -->
+                </div>
+            </li>
+
+        </ul>
+        <ul class="navbar-nav ml-auto mr-4">
+
+            {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link text-light" href="{% url 'accounts:profile' %}">
+                        <i class="lni-user"></i>
+                        {{ user }}
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'accounts:logout' %}">
+                        <i class=""></i>
+                        Logg ut
+                    </a>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'accounts:login' %}">
+                        <i class=""></i>
+                        Logg inn
+                    </a>
+                </li>
+            {% endif %}
+
+
+        </ul>
+    </div>
+</nav> <!-- End: navbar -->

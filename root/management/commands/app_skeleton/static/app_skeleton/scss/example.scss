@@ -1,0 +1,9 @@
+@import '../css/example.css';
+
+$dark: #333;
+
+.btn {
+  &-example {
+    background-color: $dark;
+  }
+}

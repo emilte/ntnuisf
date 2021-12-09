@@ -1,0 +1,47 @@
+{% extends 'songs/base.html' %}
+{% block title %}Register{% endblock %}
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static "accounts/account_styles.css" %}">
+
+    <style>
+        .default-theme {
+            min-width: 250px;
+            max-width: 600px;
+        }
+    </style>
+{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{% url 'accounts:signup' %}">Registrering</a></li>
+{% endblock %}
+
+{% block body %}
+    <div class="default-theme">
+
+        <h2>Lag bruker</h2>
+
+        <form class="container" method="post">
+            {% csrf_token %}
+            {% for field in form %}
+                <p>
+                    {{ field.label_tag }}
+                    {{ field }}
+                    {% if field.help_text %}
+                        <small class="text-secondary">{{ field.help_text }}</small>
+                    {% endif %}
+                    {% for error in field.errors %}
+                        <p class="error">{{ error }}</p>
+                    {% endfor %}
+                </p>
+            {% endfor %}
+            <button type="submit" class="btn btn-lg btn-primary btn-block">Registrer</button>
+        </form>
+        <br>
+
+        <span>Har du allerede en bruker?</span>
+        <a href="{% url 'accounts:login' %}">Logg inn her</a>
+    </div>
+
+{% endblock %}

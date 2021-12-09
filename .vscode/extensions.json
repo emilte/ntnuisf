@@ -1,0 +1,15 @@
+{
+    "recommendations": [
+        "batisteo.vscode-django",
+        "mikestead.dotenv",
+        "editorconfig.editorconfig",
+        "mrorz.language-gettext",
+        "eamodio.gitlens",
+        "yzhang.markdown-all-in-one",
+        "ms-python.vscode-pylance",
+        "ms-python.python",
+        "dbaeumer.vscode-eslint",
+        "visualstudioexptteam.vscodeintellicode",
+        "fnando.linter"
+    ]
+}

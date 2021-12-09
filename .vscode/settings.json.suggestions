@@ -1,0 +1,14 @@
+{
+    "editor.formatOnSave": true,
+    "files.autoSave": "onFocusChange",
+
+    // Hide import regions automatically, e.g. (.js)
+    "editor.foldingImportsByDefault": true,
+
+    // Automatically set filetype when opening a new file.
+    // This setting determines new filetype based on the current focused file. 
+    "files.defaultLanguage": "${activeEditorLanguage}",
+
+    // Change layout of the upper title
+    "window.title": "💀 ${activeEditorShort}${separator}${rootName}",
+}

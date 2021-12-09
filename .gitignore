@@ -1,0 +1,55 @@
+### Logging ###
+logs
+*.log
+npm-debug.log*
+
+### Runtime data ###
+pids
+*.pid
+*.seed
+
+### Django ###
+.log
+db.*
+*.db
+# migrations
+local_settings.py
+# Pipfile.lock
+mediaroot
+staticroot
+*.pyc
+*.pyo
+__pycache__
+.pytest_cache
+
+# Note that heroku is stateless and needs all files, including migrations
+
+.DS_Store
+node_modules
+
+### VisualStudioCode ###
+# ignore everything unless explicitly added ('!' prefixed)
+.vscode/**/*
+!.vscode/settings.json.default
+!.vscode/settings.json.recommended
+!.vscode/settings.json.suggestions
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/extensions.json.recommended
+
+### Environment ###
+venv/
+.venv/
+Pipfile.lock
+.env
+
+
+### Old ###
+local_settings.py
+credentials.json
+private_files/
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/**/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml

@@ -1,0 +1,77 @@
+{% extends 'songs/base.html' %}
+{% load static %}
+
+{% block title %}Video{% endblock %}
+
+{% block head %}
+    <script type="text/javascript" src="{% url 'songs:javascript-catalog' %}"></script>
+    {{ form.media }}
+
+    <link rel="stylesheet" href="{% static "videos/video_styles.css" %}">
+
+    <style media="screen">
+        {{ request.user.settings.video_theme.as_css }}
+    </style>
+{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{% url 'videos:all_videos' %}">Turbibliotek</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'videos:add_video' %}">Opprett video</a></li>
+{% endblock %}
+
+{% block body %}
+    <div class="default-theme user-theme">
+        <h1>Rediger video</h1>
+
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-row">
+                <div class="col-md-9 mb-3">
+                    {{ form.title.label_tag }}
+                    {{ form.title }}
+                    {{ form.title.errors }}
+                </div>
+            </div>
+            <div class="form-row">
+
+            </div>
+            <div class="form-row">
+                <div class="col-md-6 mb-3">
+                    {{ form.youtube_URL.label_tag }}
+                    {{ form.youtube_URL }}
+                    {{ form.youtube_URL.errors }}
+                </div>
+                <div class="col-md-3 mb-3">
+                    {{ form.difficulty.label_tag }}
+                    {{ form.difficulty }}
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-6 mb-5">
+                    {{ form.description.label_tag }}
+                    {{ form.description }}
+                    {{ form.description.errors }}
+                </div>
+                <div class="col-md-6 mb-3">
+                    {{ form.focus.label_tag }}
+                    {{ form.focus }}
+                    {{ form.focus.errors }}
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-12 mb-3">
+                    {{ form.tags }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 mt-4">
+                    <button type="button" class="btn btn-dark btn-block" onclick="window.history.back()">Avbryt</button>
+                </div>
+                <div class="col mt-4">
+                    <button type="submit" class="btn btn-secondary btn-block">Lagre</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+{% endblock %}

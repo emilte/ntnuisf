@@ -1,0 +1,13 @@
+.default-theme {
+    background-color: rgba(20,70,40,0.8);
+    border-radius: 1em;
+    padding: 1em;
+}
+
+.default-theme a {
+    color: #28a745;
+}
+
+.default-theme a:hover {
+    color: #117733;
+}

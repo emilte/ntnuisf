@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+{% load static %}
+{% load compress %}
+{% load root_tags %}
+{% get_settings "ENV" as ENV %}
+{% get_settings "DEV" as DEV %}
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <!-- MDB (requires: .js file) -->
+    <!-- Annoying wave-effect -->
+    {# <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.16.0/css/mdb.min.css" rel="stylesheet"> #}
+
+    <!-- Lineicons -->
+    <!-- Icon library -->
+    <link rel="stylesheet" href="https://cdn.lineicons.com/1.0.1/LineIcons.min.css">
+    <link href="https://cdn.lineicons.com/2.0/LineIcons.css" rel="stylesheet">
+
+    <!-- Other stylesheets -->
+    {% compress css  %}
+      <link rel="stylesheet" type="text/x-scss" href="{% static 'root/scss/base.scss' %}"/>
+      <link rel="stylesheet" type="text/x-scss" href="{% static 'root/scss/mdb_animations.scss' %}"/>
+      {% if ENV == DEV %}
+      <link rel="stylesheet" type="text/x-scss" href='{% static "root/scss/dev.scss" %}'>
+      {% endif %}
+    {% endcompress %}
+    
+    <link rel="shortcut icon" type="image/png" href="{% static 'root/img/favicon-32x32.png' %}"/>
+
+
+    <!-- select2 (requires: .js file) -->
+    <!-- Plugin for several fields in forms -->
+    {# <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.12/css/select2.min.css" integrity="sha256-FdatTf20PQr/rWg+cAKfl6j4/IY3oohFAJ7gVC3M34E=" crossorigin="anonymous" /> #}
+
+    <!-- TinyMCE (requires: .js file and init-script) -->
+    <!-- Plugin for complex input-textfields -->
+    {# <script src="https://cdn.tiny.cloud/1/5fxgnl3dek8av5x5in4ke8fhqsup13fux7rshr2l91r8lgjw/tinymce/5/tinymce.min.js"></script> #}
+
+
+    <!-- flatpickr (requires .js file and init-script) -->
+    <!-- Plugin for calendar date-picker -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.3/flatpickr.css" integrity="sha256-7vIWE+OHz3pLhuONuFqSa/Oh/YUUHFIMooHMwN1Q2bk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.3/themes/dark.css" integrity="sha256-K7VO/dYboZOIjm2us6WE3Z8P8lsfUKaUVSnYYtPg6eE=" crossorigin="anonymous" />
+
+    <!-- Title -->
+    <title>{% block title %}Base{% endblock %}</title>
+
+    {% block head %}
+        <!-- head access for extended templates -->
+    {% endblock %}
+</head>
+
+<body>
+
+    {% block navbar %}
+    {% include "root/navbar.html" %}
+    {% endblock %}
+
+
+    <div id="content-wrapper" class="container-fluid p-1">
+
+        <!-- Django messages -->
+        <!-- https://docs.djangoproject.com/en/3.1/ref/contrib/messages/ -->
+        <!--
+            Yes, there is a lot of redundant code here.
+            Could possibly find a better solution, but currently this allows for
+            quick independant modifications for each message type
+        -->
+        <div class="no-print mb-2">
+            {% for message in messages %}
+                {% if 'success' in message.tags %}
+                    <div class="p-1 bg-success text-light rounded mb-1">
+                        {{ message }}
+                        <i class="btn-message-remove cursor-pointer lni-cross-circle float-right pt-1"></i>
+                    </div>
+                {% elif 'error' in message.tags %}
+                    <div class="p-1 bg-danger text-light rounded mb-1">
+                        {{ message }}
+                        <i class="btn-message-remove cursor-pointer lni-cross-circle float-right pt-1"></i>
+                    </div>
+                {% elif 'warning' in message.tags %}
+                    <div class="p-1 bg-warning text-dark rounded mb-1">
+                        {{ message }}
+                        <i class="btn-message-remove cursor-pointer lni-cross-circle float-right pt-1"></i>
+                    </div>
+                {% elif 'info' in message.tags %}
+                    <div class="p-1 bg-info text-light rounded mb-1">
+                        {{ message }}
+                        <i class="btn-message-remove cursor-pointer lni-cross-circle float-right pt-1"></i>
+                    </div>
+                {% elif 'debug' in message.tags %}
+                    <div class="p-1 bg-primary text-light rounded mb-1">
+                        {{ message }}
+                        <i class="btn-message-remove cursor-pointer lni-cross-circle float-right pt-1"></i>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+
+        {% block body %}
+            <!-- Body access for extended templates -->
+        {% endblock %}
+    </div>
+
+
+    <!--
+    Position absolute enables elements to stack on top of eachother. In this case canvas behind the footer.
+    w-100 sets width to 100% because position-absolute makes div display like span.
+    Be sure to wrap position-absolute elements with a div that can follow normal dom flow.
+    -->
+    <div class="mt-5">
+        <canvas class="position-absolute w-100"></canvas>
+        <div class="position-absolute w-100">
+            {% include "root/footer.html" %}
+        </div>
+    </div>
+
+
+
+    <!-- Begin: scripts -->
+    <!-- Note: Scripts and plugins are imported last because of better user experience -->
+
+
+    <!-- JQuery first, then Popper.js, then Bootstrap JS -->
+    {# <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script> #}
+    <script src="https://code.jquery.com/jquery-3.5.0.js" integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc=" crossorigin="anonymous"></script>
+    {# <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.4.0/cjs/popper.min.js" integrity="sha256-OH05DFHUWzr725HmuHo3pnuvUUn+TJuj8/Qz9xytFEw=" crossorigin="anonymous"></script> #}
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js" integrity="sha384-6khuMg9gaYr5AxOqhkVIODVIvm9ynTT5J4V1cfthmT+emCG6yVmEZsRHdxlotUnm" crossorigin="anonymous"></script>
+    {# <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script> #}
+
+    <!-- MDB (requires: .css file) -->
+    {# <script src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.16.0/js/mdb.min.js"></script> #}
+
+    <!-- flatpickr (requires: .css file) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.3/flatpickr.js" integrity="sha256-3soYYYidbbsrmHXTGgxeCdgMfgt6IqWjWPKfuDWduqM=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.3/l10n/no.js" integrity="sha256-q8KkXT0pTTRz4uxuUW+rWQbWyg1VTAygONGTJS/QUjE=" crossorigin="anonymous"></script>
+
+    <!-- select2 (requires: .css file) -->
+    {# <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.12/js/i18n/nb.js" integrity="sha256-vw4B7p459U8eU8SfWyGnBM2YmkxrKM43V72uzVtPIHc=" crossorigin="anonymous"></script> #}
+
+    <!-- constellation effect for footer -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.2.0/zepto.js" integrity="sha256-U+vPaw6wGRNjtBRznIBWHgpzNvNI8pRs8fQC313cxfs=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="{% static "root/js/constellation.js" %}"></script>
+
+    <!-- BsMultiselect -->
+    <!-- https://www.jqueryscript.net/form/Bootstrap-4-Multi-Select-BsMultiSelect.html -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.15/js/bootstrap-multiselect.js" integrity="sha256-gh5oDg46rxRDr9QF4nehk1UNULQ05EhbM9wOerElwRc=" crossorigin="anonymous"></script>
+    {# <script type="text/javascript" src="https://rawgit.com/DashboardCode/BsMultiSelect/master/dist/js/BsMultiSelect.min.js"></script> #}
+
+    {% block scripts %}
+    <!-- Note: scripts access for extended templates -->
+    {% endblock %}
+
+    <!-- Begin: base script -->
+    <script type="text/javascript">
+        /*
+        Note: '$' is short for using JQuery. Ensure that JQuery has been imported before using '$'.
+        Note: Wait for ready document (meaning all elements have loaded on screen). This
+        enhances user experience because visual confirmation is prioritized over functionality.
+        */
+        $(document).ready(function() {
+
+            // Note: Enables user to remove Django messages on top of page
+            $('.btn-message-remove').on('click', function() {
+                $(this).parent().remove();
+            })
+
+            $("form [required]").addClass("border-primary");
+
+            // Multiselect init
+            $(function(){
+                // $("select").bsMultiSelect();
+                $("select.plugin").multiselect();
+                $(".multiselect").addClass("bg-light mt-3")
+            });
+
+            // Begin: sidebar init
+            $("#sidebar").mCustomScrollbar({
+                theme: "minimal"
+            });
+            $('#dismiss, .overlay').on('click', function () {
+                // hide sidebar
+                $('#sidebar').removeClass('active');
+                // hide overlay
+                $('.overlay').removeClass('active');
+            });
+            $('#sidebarCollapse').on('click', function () {
+                // open sidebar
+                $('#sidebar').addClass('active');
+                // fade in the overlay
+                $('.overlay').addClass('active');
+                $('.collapse.in').toggleClass('in');
+                $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+            });
+            // End: sidebar
+        })
+    </script>
+
+    <!-- End: scripts -->
+
+</body>
+</html>

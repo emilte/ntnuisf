@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+{% load static %}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <!-- Icon library -->
+    <link rel="stylesheet" href="https://cdn.lineicons.com/1.0.1/LineIcons.min.css">
+
+    <!-- Other -->
+    <link rel="stylesheet" type="text/css" href="{% static 'songs/css/base.css' %}"/>
+    <link rel="shortcut icon" type="image/png" href="https://png.icons8.com/metro/16/006F30/musical-notes.png"/>
+
+    <!-- TinyMCE -->
+    <script src="https://cdn.tiny.cloud/1/5fxgnl3dek8av5x5in4ke8fhqsup13fux7rshr2l91r8lgjw/tinymce/5/tinymce.min.js"></script>
+
+    <!-- flatpickr (also js) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.3/flatpickr.css" integrity="sha256-7vIWE+OHz3pLhuONuFqSa/Oh/YUUHFIMooHMwN1Q2bk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.3/themes/dark.css" integrity="sha256-K7VO/dYboZOIjm2us6WE3Z8P8lsfUKaUVSnYYtPg6eE=" crossorigin="anonymous" />
+
+    <!-- select2 (also js) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.12/css/select2.min.css" integrity="sha256-FdatTf20PQr/rWg+cAKfl6j4/IY3oohFAJ7gVC3M34E=" crossorigin="anonymous" />
+
+    <!-- Title -->
+    <title>{% block title %}Hjem{% endblock %}</title>
+
+    {% if request.user.settings.main_theme %}
+        <style media="screen">
+            body {
+                background-color: {{ request.user.settings.main_theme.background_color }};
+                color: {{ request.user.settings.main_theme.text_color }};
+            }
+            a {
+                color: {{ request.user.settings.main_theme.link_color }};
+            }
+            a:hover {
+                color: {{ request.user.settings.main_theme.link_hover_color }};
+            }
+        </style>
+    {% endif %}
+
+    {% if request.user.settings.background %}
+        <style media="screen">
+            body {
+                background-size: 100% auto;
+                background-position: top left;
+                background-repeat: no-repeat;
+                background-attachment: fixed;
+                background-image: url("{{ request.user.settings.background }}");
+            }
+
+        </style>
+    {% endif %}
+
+    {% if request.user.settings.footer_theme %}
+        <style media="screen">
+            #footer {
+                background-color: {{ request.user.settings.footer_theme.background_color }};
+                color: {{ request.user.settings.footer_theme.text_color }};
+            }
+            #footer a {
+                color: {{ request.user.settings.footer_theme.link_color }};
+            }
+            #footer a:hover {
+                color: {{ request.user.settings.footer_theme.link_hover_color }};
+            }
+        </style>
+    {% endif %}
+
+    {% if request.user.settings.input_theme %}
+        <style media="screen">
+            input[required=false] {
+                background-color: {{ request.user.settings.input_theme.background_color }};
+            }
+            .input-group-text {
+                background-color: {{ request.user.settings.input_theme.background_color }};
+                color: {{ request.user.settings.input_theme.text_color }};
+            }
+            .btn, .btn:hover, .btn:active {
+                color: {{ request.user.settings.input_theme.text_color }};
+            }
+        </style>
+    {% endif %}
+
+    {% if request.user.settings.scrollbar %}
+        <style media="screen">
+            ::-webkit-scrollbar-thumb {
+                background-color: {{ request.user.settings.scrollbar }};
+            }
+        </style>
+    {% endif %}
+
+
+
+
+    {% block head %}{% endblock %}
+</head>
+
+<body>
+
+    {% include "songs/navbar.html" %}
+
+    <div id="content-wrapper" class="container p-1">
+
+        <!-- Messages -->
+        <div class="no-print mb-2">
+            {% for message in messages %}
+                {% if 'success' in message.tags %}
+                    <div class="p-1 bg-success text-light rounded mb-1">
+                        {{ message }}
+                        <i class="btn-message-remove cursor-pointer lni-cross-circle float-right pt-1"></i>
+                    </div>
+                {% elif 'error' in message.tags %}
+                    <div class="p-1 bg-danger text-light rounded mb-1">
+                        {{ message }}
+                        <i class="btn-message-remove cursor-pointer lni-cross-circle float-right pt-1"></i>
+                    </div>
+                {% elif 'warning' in message.tags %}
+                    <div class="p-1 bg-warning text-dark rounded mb-1">
+                        {{ message }}
+                        <i class="btn-message-remove cursor-pointer lni-cross-circle float-right pt-1"></i>
+                    </div>
+                {% elif 'info' in message.tags %}
+                    <div class="p-1 bg-info text-light rounded mb-1">
+                        {{ message }}
+                        <i class="btn-message-remove cursor-pointer lni-cross-circle float-right pt-1"></i>
+                    </div>
+                {% elif 'debug' in message.tags %}
+                    <div class="p-1 bg-primary text-light rounded mb-1">
+                        {{ message }}
+                        <i class="btn-message-remove cursor-pointer lni-cross-circle float-right pt-1"></i>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+
+
+        <!-- breadcrumbs -->
+        <nav aria-label="breadcrumb">
+            <ol id="breadcrumb" class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}">Hjem</a></li>
+                {% block breadcrumbs %}
+
+                {% endblock %}
+            </ol>
+        </nav> <!-- End: breadcrumbs -->
+
+        {% block body %}
+            <!-- Other templates are inserted here -->
+        {% endblock %}
+    </div>
+
+
+    {% include "songs/footer.html" %}
+
+
+    <!-- JQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js" integrity="sha384-6khuMg9gaYr5AxOqhkVIODVIvm9ynTT5J4V1cfthmT+emCG6yVmEZsRHdxlotUnm" crossorigin="anonymous"></script>
+
+    <!-- flatpickr (also css) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.3/flatpickr.js" integrity="sha256-3soYYYidbbsrmHXTGgxeCdgMfgt6IqWjWPKfuDWduqM=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.3/l10n/no.js" integrity="sha256-q8KkXT0pTTRz4uxuUW+rWQbWyg1VTAygONGTJS/QUjE=" crossorigin="anonymous"></script>
+
+    <!-- select2 (also css) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.12/js/i18n/nb.js" integrity="sha256-vw4B7p459U8eU8SfWyGnBM2YmkxrKM43V72uzVtPIHc=" crossorigin="anonymous"></script>
+
+    {% block script %}{% endblock %}
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('.btn-message-remove').on('click', function() {
+                $(this).parent().remove();
+            })
+
+            $("form [required]").addClass("border-primary");
+        })
+    </script>
+
+
+</body>
+</html>

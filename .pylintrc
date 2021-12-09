@@ -1,0 +1,36 @@
+[MASTER]
+load-plugins=pylint_django,pylint_quotes
+ignore=migrations,node_modules,venv,.venv,frontend,staticroot,scripts,static,media,mediaroot
+max-line-length=160
+include-naming-hint=y
+variable-rgx=(([a-z_]+[a-z0-9_]*)|(_[a-z0-9_]*)|(__[a-z][a-z0-9_]+__))$
+argument-rgx=(([a-z_]+[a-z0-9_]*)|(_[a-z0-9_]*)|(__[a-z][a-z0-9_]+__))$
+method-rgx=(([a-z_]+[a-z0-9_]*)|(_[a-z0-9_]*)|(__[a-z][a-z0-9_]+__))$
+attr-rgx=(([a-z_]+[a-z0-9_]*)|(_[a-z0-9_]*)|(__[a-z][a-z0-9_]+__))$
+
+
+[pylint-django]
+django-settings-module=root.settings
+
+[pylint-quotes]
+string-quote=single-avoid-escape
+triple-quote=double
+docstring-quote=double
+
+
+[MESSAGES CONTROL]
+
+disable=
+    missing-module-docstring, missing-class-docstring, missing-function-docstring, # We don't require docstrings
+    bad-continuation, # Not compatible with yapf settings
+    duplicate-code,
+    too-many-ancestors,
+    too-many-instance-attributes,
+    too-few-public-methods,
+    too-many-public-methods,
+    too-many-arguments,
+    too-many-locals,
+    too-many-statements,
+    unsubscriptable-object, # https://github.com/PyCQA/pylint/issues/1498
+    used-before-assignment, # false positive for imported things when TYPE_CHECKING
+    ; django-not-configured, # django-settings-module=root.settings doesn't work

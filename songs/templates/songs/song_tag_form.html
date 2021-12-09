@@ -1,0 +1,34 @@
+{% extends 'songs/base.html' %}
+{% load static %}
+
+{% block title %}SongTag{% endblock %}
+
+{% block head %}
+
+    <link rel="stylesheet" href="{% static "songs/css/song_styles.css" %}">
+
+    <style>
+        {{ request.user.settings.song_theme.as_css }}
+    </style>
+{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{% url 'songs:add_song_tag' %}">Legg til SangTag</a></li>
+{% endblock %}
+
+{% block body %}
+    <div class="default-theme user-theme">
+
+        <h1>SangTag:</h1>
+        <br>
+
+        <form class="form-inline" method="post">
+            {% csrf_token %}
+
+            {{ form.title }}
+            {{ form.title.errors }}
+            <button class="btn btn-dark" type="submit">Lagre</button>
+
+        </form>
+    </div>
+{% endblock %}

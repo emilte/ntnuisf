@@ -1,0 +1,41 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+
+[packages]
+django = "*"
+django-heroku = "*"
+django-filter = "*"
+django-extensions = "*"
+django-user-agents = "*"
+django-debug-toolbar = "*"
+pytest = "*"
+pytest-django = "*"
+yapf = "*"
+whitenoise = "*"
+pylint = "*"
+pylint-django = "*"
+pylint-quotes = "*"
+halo = "*"
+pyyaml = "*"
+ua-parser = "*"
+user-agents = "*"
+python-memcached = "*"
+django-tinymce = "*"
+python-docx = "*"
+docx = "*"
+spotipy = "*"
+gunicorn = "*"
+django-allauth = "*"
+"django-select2" = "*"
+django-seed = "*"
+faker = "==2.0.5"
+django-flatpickr = "*"
+python-slugify = "*"
+
+[requires]
+python_version = "3.9.7"
+

@@ -1,0 +1,57 @@
+{% extends 'root/base.html' %}
+{% load static %}
+
+{% block title %}Generisk{% endblock %}
+
+{% block body %}
+    <div class="">
+
+        <form class="container" method="post" enctype='multipart/form-data'>
+            {% csrf_token %}
+            {% for field in form %}
+                {{ field.label_tag }}
+                {{ field }}
+                {% for error in field.errors %}
+                    <div class="text-danger">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+
+            {% for error in form.non_field_errors %}
+                <div class="text-danger">
+                    {{ error }}
+                </div>
+            {% endfor %}
+
+            <button class="btn btn-dark btn-block mt-4" type="submit" name="button">Lagre</button>
+        </form>
+
+    </div>
+{% endblock body %}
+
+{% block scripts %}
+<script type="text/javascript">
+    $(document).ready(function() {
+        var tinymceConfig = {
+            selector: "textarea.tinymce",
+            plugins: 'advlist autoresize autosave codesample emoticons help lists print searchreplace tabfocus textpattern',
+            menubar: 'file edit insert view format tools table help',
+            toolbar: 'undo redo | fontselect | fontsizeselect | bold italic underline | forecolor | backcolor | removeformat | numlist bullist',
+            min_height: 50,
+            max_height: 600,
+            toolbar_sticky: false,
+            autosave_ask_before_unload: true,
+            autosave_interval: "30s",
+            autosave_prefix: "{path}{query}-{id}-",
+            autosave_restore_when_empty: false,
+            autosave_retention: "2m",
+            tabfocus_elements: ":prev,:next",
+            toolbar_items_size: "small",
+        }
+
+
+        tinymce.init(tinymceConfig);
+    })
+</script>
+{% endblock scripts %}

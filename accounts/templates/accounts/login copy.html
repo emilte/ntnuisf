@@ -1,0 +1,52 @@
+{% extends 'songs/base.html' %}
+{% load static %}
+{% load account %}
+{% load socialaccount %}
+
+{% block title %}Login{% endblock title %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static "accounts/account_styles.css" %}">
+    <style media="screen">
+        .default-theme {
+            min-width: 220px;
+            max-width: 500px;
+        }
+    </style>
+{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{% url 'accounts:login' %}">Logg inn</a></li>
+{% endblock %}
+
+{% block body %}
+    {% if user.is_authenticated %}
+        <h2>Du er allerede logget inn</h2>
+    {% else %}
+        <div class="row">
+            <div class="col">
+                <div class="default-theme">
+
+                    <h2>Logg inn:</h2>
+
+                    <a class="btn btn-danger" href="{% provider_login_url "google" %}">
+                        <img src="https://img.icons8.com/color/48/000000/google-logo.png">
+                        Logg inn med Google
+                    </a>
+
+                </div>
+            </div>
+        </div>
+        <br>
+
+        <br>
+    {% endif %}
+{% endblock %}
+
+{% block scriptblock %}
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+        })
+    </script>
+{% endblock %}

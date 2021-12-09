@@ -1,0 +1,94 @@
+<!-- Navbar -->
+{% load static %}
+<nav style="padding: 0px 0px 0px 20px; box-shadow: 0 8px 10px -10px #010101; -webkit-box-shadow: 0 8px 10px -10px #010101; background-color: #0d0d0d;" class="navbar navbar-expand-lg navbar-dark fixed-top">
+
+    <a style="padding: 0px; margin: 0px 50px 0px 0px" class="navbar-brand" href="{% url 'stefan:index' %}">
+        <img style="padding: 0px 0px 0px 10px" width="60" src="{% static "main/Forsvarets_merke.png" %}" alt="">
+        Idretten Ørland Flystasjon
+    </a>
+
+
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+
+    <div id="navbar" class="collapse navbar-collapse mr-auto">
+        <ul class="navbar-nav mr-auto">
+
+
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'admin:index' %}">
+                    {# <img src="https://img.icons8.com/ios/24/FFFFFF/69.png"> #}
+                    {# <i class="lni-timer"></i> #}
+                    <i class="lni-calendar"></i>
+                    Adminpanel
+                </a>
+            </li>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="distance-dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Distance
+                </a>
+                <div class="dropdown-menu" aria-labelledby="distance-dropdown">
+                    <a class="dropdown-item" href="{% url 'distance:register' %}">Registrer økt</a>
+                    <a class="dropdown-item" href="{% url 'distance:results' %}">Resultater</a>
+                </div>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'distance:register' %}">
+                    {# <img src="https://img.icons8.com/ios/24/FFFFFF/69.png"> #}
+                    {# <i class="lni-timer"></i> #}
+                    <i class="lni-calendar"></i>
+                    Registrer
+                </a>
+            </li>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="emil-dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Emil
+                </a>
+                <div class="dropdown-menu" aria-labelledby="emil-dropdown">
+                    <a class="dropdown-item" href="{% url 'emil:register' %}">Registrer økt</a>
+                    <a class="dropdown-item" href="{% url 'emil:results' %}">Resultater</a>
+                </div>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'stefan:register' %}">
+                    <i class="lni-calendar"></i>
+                    Stefan
+                </a>
+            </li>
+
+        </ul>
+        <ul class="navbar-nav ml-auto">
+
+            {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'accounts:profile' %}">
+                        <i class="lni-calendar"></i>
+                        {{ user }}
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'accounts:logout' %}">
+                        <i class="lni-calendar"></i>
+                        Logg ut
+                    </a>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'accounts:login' %}">
+                        <i class="lni-calendar"></i>
+                        Logg inn
+                    </a>
+                </li>
+            {% endif %}
+
+
+        </ul>
+    </div>
+</nav> <!-- End: navbar -->

@@ -1,0 +1,39 @@
+name: Django CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  PIPENV_VENV_IN_PROJECT: 1
+  ENV: development
+  SECRET_KEY: NOT SET
+  DJANGO_SUPERUSER_USERNAME: admin
+  DJANGO_SUPERUSER_PASSWORD: Django123
+  DJANGO_SUPERUSER_EMAIL: admin@example.com
+
+jobs:
+
+  job_build_django:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.9.7'
+        
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        python -m pip install pipenv
+        python -m pipenv install
+
+    - name: Setup project
+      run: python -m pipenv run python manage.py cleanstart --noinput
+    
+    - name: Run pylint
+      run: python -m pipenv run pylint accounts root
