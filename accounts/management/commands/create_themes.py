@@ -4,7 +4,7 @@ from django.utils import timezone
 from halo import Halo
 from django.core import management
 from accounts.models import *
-from songs.models import *
+from ntnuisf.models.songs import *
 # End: imports -----------------------------------------------------------------
 
 # Settings:
@@ -16,9 +16,9 @@ class Command(BaseCommand):
         spinner = Halo("Creating themes")
         spinner.start()
         Theme.objects.create(
-            background_color = "red",
-            link_color = "blue",
-            link_hover_color = "yellow",
+            background_color="red",
+            link_color="blue",
+            link_hover_color="yellow",
         )
         spinner.succeed()
 

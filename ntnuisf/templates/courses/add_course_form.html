@@ -1,0 +1,206 @@
+{% extends 'songs/base.html' %}
+{% block title %}Add course{% endblock %}
+{% load static %}
+
+{% block head %}
+    <script type="text/javascript" src="{% url 'songs:javascript-catalog' %}"></script>
+
+    {{ form.media }}
+
+    <link rel="stylesheet" href="{% static "courses/course_styles.css" %}">
+
+    <style media="screen">
+        .section {
+            background-color: rgba(100, 180, 160, 0.5);
+            margin-bottom: 1em;
+        }
+    </style>
+{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{% url 'courses:add_course' %}">Rediger Kurs</a></li>
+{% endblock %}
+
+{% block body %}
+<h1>Rediger Kurs</h1>
+
+<form method="post">
+    {% csrf_token %}
+    <div id="addcourse_form">
+        <div class="form-row">
+            <div class="form-group col-md">
+                {{ addcourse_form.title.label }}
+                {{ addcourse_form.title }}
+            </div>
+            <div class="form-group col-md-2">
+                {{ addcourse_form.start.label }}
+                {{ addcourse_form.start }}
+            </div>
+            <div class="form-group col-md-1">
+                {{ addcourse_form.duration.label }}
+                {{ addcourse_form.duration }}
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md">
+                {{ addcourse_form.lead.label }}
+                {{ addcourse_form.lead }}
+            </div>
+            <div class="form-group col-md">
+                {{ addcourse_form.follow.label }}
+                {{ addcourse_form.follow }}
+            </div>
+        </div>
+    </div>
+
+    <br>
+
+    {{ section_form_template.title }}
+
+    <div class="d-none">
+        <div id="section_form_template" class="jumbotron section">
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    {{ section_form_template.title.label }}
+                    {{ section_form_template.title }}
+                </div>
+                <div class="form-group col-md-2">
+                    {{ section_form_template.start.label }}
+                    {{ section_form_template.start }}
+                </div>
+                <div class="form-group col-md-1">
+                    {{ section_form_template.duration.label }}
+                    {{ section_form_template.duration }}
+                </div>
+                <div class="form-group col-md-2">
+                    {{ section_form_template.song.label }}
+                    {{ section_form_template.song }}
+                </div>
+                <div class="form-group col-md-2">
+                    {{ section_form_template.video.label }}
+                    {{ section_form_template.video }}
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-10">
+                    {{ section_form_template.text.label }}
+                    {{ section_form_template.text }}
+                </div>
+            </div>
+            <button class="btn btn-danger float-right" id="btn-remove-section${i}" onclick="removeSection(this)" type="button" name="button" >
+                <img src="https://img.icons8.com/material-sharp/24/000000/minus.png">
+                Remove
+            </button>
+        </div>
+    </div>
+
+
+    <div id="dynamic-sections">
+        <input id="sectionCount" type="hidden" readonly name="sectionCount" value="0">
+    </div>
+
+    <button class="btn btn-secondary" id="btn-add-section" type="button" name="button" >
+        <img src="https://img.icons8.com/material-rounded/25/22BB30/plus-math.png">
+        New section
+    </button>
+
+    <br>
+    <br>
+
+    <button class="btn btn-block btn-dark" type="submit">Save</button>
+</form>
+
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript">
+
+        function removeSection(element) {
+            var sectionID = element.id.slice(-1)
+            $(`#section${sectionID}`).remove()
+        }
+        console.log($("#section_form_template").html())
+
+
+
+        $(document).ready(function() {
+            //
+            // var section_form_template = $("#section_form_template")
+            // console.log(section_form_template.html())
+            //
+            // console.log($("#section_form_template").html())
+            // console.log($("#section_form_template").html().replace("_sectionID", "12345678"))
+            // section_form_template = section_form_template.html().replace("sectionID", "12345678")
+
+            //console.log(section_form_template)
+
+            function create_section_form(i) {
+                return `
+                <div id="section${i}" class="jumbotron section">
+                    <div class="form-row">
+                        <div class="form-group col-md-3">
+                            <label for="title${i}">Title</label>
+                            <input type="text" name="title${i}" class="form-control" id="title${i}" placeholder="Title">
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label for="start${i}">Start</label>
+                            <input type="text" name="start${i}" class="form-control" id="start${i}" placeholder="">
+                        </div>
+                        <div class="form-group col-md-1">
+                            <label for="duration${i}">Duration</label>
+                            <input type="text" name="duration${i}" class="form-control" id="duration${i}" placeholder="min">
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label for="song${i}">Song</label>
+                            <select name="song${i}" class="form-control" id="song${i}">
+                                <option value="-1" selected="">---------</option>
+                                {% for song in songs %}
+                                    <option value="{{ forloop.counter }}">{{ song.title }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label for="video${i}">Video</label>
+                            <select name="video${i}" class="form-control" id="video${i}">
+                                <option value="-1" selected="">---------</option>
+                                {% for video in videos %}
+                                    <option value="{{ forloop.counter }}">{{ video.navn }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-10">
+                            <label for="text${i}">Text</label>
+                            <textarea type="text" name="text${i}" class="form-control" id="text${i}" placeholder=""></textarea>
+                        </div>
+                    </div>
+                    <button class="btn btn-danger float-right" id="btn-remove-section${i}" onclick="removeSection(this)" type="button" name="button" >
+                        <img src="https://img.icons8.com/material-sharp/24/000000/minus.png">
+                        Remove
+                    </button>
+                </div>
+                `
+            }
+
+
+            function addSection() {
+                $("#sectionCount").val( +$("#sectionCount").val() + 1)
+                var n = $("#sectionCount").val()
+                $("form #dynamic-sections").append(create_section_form(n))
+            }
+
+
+
+            $("#btn-add-section").click(addSection)
+
+
+            // $("[id^=btn-remove-section]").click(function(e) {
+            //     console.log(e)
+            //     console.log(2)
+            // })
+
+        })
+    </script>
+{% endblock script %}

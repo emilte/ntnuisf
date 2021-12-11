@@ -1,17 +1,10 @@
 # imports
-import typing
-
+from django.http import HttpRequest
 from django.contrib import admin
-from django.contrib.auth import get_user_model
+from django.db.models import QuerySet
 
 from root import models as root_models
 from . import models
-
-User = get_user_model()
-
-if typing.TYPE_CHECKING:
-    from django.http import HttpRequest
-    from django.db.models import QuerySet
 
 # End: imports -----------------------------------------------------------------
 

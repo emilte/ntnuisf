@@ -1,7 +1,7 @@
 # imports
-import typing
-
+from django.http import HttpRequest
 from django.contrib import admin
+from django.db.models import QuerySet
 from django.contrib.auth import get_user_model
 from django.contrib.auth import admin as auth_admin
 from django.contrib.auth.models import Permission
@@ -9,7 +9,6 @@ from django.contrib.auth.models import Permission
 from root import models as root_models
 
 from .models import (
-    Group,
     Theme,
     Settings,
     Department,
@@ -18,10 +17,6 @@ from .models import (
     PermissionCode,
     DepartmentMembership,
 )
-
-if typing.TYPE_CHECKING:
-    from django.http import HttpRequest
-    from django.db.models import QuerySet
 
 User = get_user_model()
 # End: imports -----------------------------------------------------------------
@@ -68,7 +63,7 @@ class PermissionCodeAdmin(root_models.CustomBaseAdmin):
     list_filter = ['group']
     search_fields = ['group', 'secret']
     ordering = ['-id']
-    # readonly_fields = []
+    readonly_fields = []
     # filter_horizontal = []
     # actions = []
 
@@ -93,9 +88,9 @@ class InstructorAdmin(admin.ModelAdmin):
 
 @admin.register(Theme)
 class ThemeAdmin(admin.ModelAdmin):
-    list_display = ['name', 'user', 'background_color', 'text_color', 'link_color', 'link_hover_color']
+    list_display = ['name', 'creator', 'background_color', 'text_color', 'link_color', 'link_hover_color']
     list_editable = ['background_color', 'text_color', 'link_color', 'link_hover_color']
-    search_fields = ['name', 'user__email', 'user__first_name', 'user__last_name']
+    search_fields = ['name', 'creator__email', 'creator__first_name', 'creator__last_name']
     readonly_fields = ['created']
 
 
@@ -110,7 +105,7 @@ class SettingsAdmin(admin.ModelAdmin):
     ]
 
 
-admin.site.register(Group)
+# admin.site.register(Group)
 admin.site.register(Permission)
 admin.site.register(SpotifyToken)
 admin.site.register(DepartmentMembership)

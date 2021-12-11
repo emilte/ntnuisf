@@ -1,5 +1,6 @@
 from django.apps import AppConfig
 from django.core import management
+from django.db.utils import OperationalError
 from django.core.management.base import CommandError
 
 
@@ -12,6 +13,6 @@ class AccountsConfig(AppConfig):
         try:
             # define credentials in '.env' file
             management.call_command('createsuperuser', interactive=False)
-        except CommandError as e:
+        except (CommandError, ValueError, OperationalError) as e:
             # multiple calls of 'createsuperuser' will raise exception because the username is already taken
-            print(__file__, e)
+            print('==>', __file__, e)

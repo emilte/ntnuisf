@@ -1,19 +1,16 @@
 # imports
 import json
-import typing
 
 from django.db import models
-from django.conf import settings
 from django.utils import timezone
 from django.contrib.auth import models as auth_models
-from django.contrib.auth.models import Group
+from django.contrib.auth.models import AbstractUser, Group, PermissionsMixin
 
-if typing.TYPE_CHECKING:
-    pass
 # End: imports -----------------------------------------------------------------
 
 
-class User(auth_models.User):
+# class User(auth_models.User):
+class User(AbstractUser, PermissionsMixin):
 
     class Gender(models.TextChoices):
         MALE = 'M', 'Male'
@@ -51,7 +48,7 @@ class Department(models.Model):
     """
     name = models.CharField(max_length=200, null=False, blank=False, verbose_name='Navn')
     parent = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True, related_name='children', verbose_name='Over-seksjon')
-    members = models.ManyToManyField(settings.AUTH_USER_MODEL, through='accounts.DepartmentMembership', related_name='departments', verbose_name='Medlemmer')
+    members = models.ManyToManyField(User, through='DepartmentMembership', related_name='departments', verbose_name='Medlemmer')
 
     class Meta:
         ordering = []
@@ -73,10 +70,11 @@ class Department(models.Model):
         return self.members.all().count()
 
 
+# pylint: disable=consider-using-f-string
 class DepartmentMembership(models.Model):
     """ Intermediate model: User <-> Department """
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=False, blank=False, verbose_name='Bruker')
-    department = models.ForeignKey('accounts.Department', on_delete=models.CASCADE, null=False, blank=False, verbose_name='Seksjon')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False, verbose_name='Bruker')
+    department = models.ForeignKey(Department, on_delete=models.CASCADE, null=False, blank=False, verbose_name='Seksjon')
     date_joined = models.DateTimeField(default=timezone.now, null=False, blank=False, verbose_name='Dato innmeldt')
 
     class Meta:
@@ -90,7 +88,7 @@ class DepartmentMembership(models.Model):
 
 class Theme(models.Model):
     creator = models.OneToOneField(
-        settings.AUTH_USER_MODEL,
+        User,
         on_delete=models.CASCADE,
         null=True,
         blank=True,
@@ -109,12 +107,12 @@ class Theme(models.Model):
     created = models.DateTimeField(null=True, blank=True, editable=False, verbose_name='Opprettet')
 
     class Meta:
-        ordering = ['user', 'name']
+        ordering = ['creator', 'name']
         verbose_name = 'Tema'
         verbose_name_plural = 'Temaer'
 
     def __str__(self):
-        if self.user:
+        if self.creator:
             return f'{self.name}'
         return f'{self.name} (Public)'
 
@@ -139,7 +137,7 @@ class Theme(models.Model):
 
 
 class Settings(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=False, related_name='settings', verbose_name='Tilhører')
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=False, related_name='settings', verbose_name='Tilhører')
 
     account_theme = models.ForeignKey(Theme, on_delete=models.SET_NULL, null=True, blank=True, related_name='settings_as_account', verbose_name='Bruker-tema')
     video_theme = models.ForeignKey(Theme, on_delete=models.SET_NULL, null=True, blank=True, related_name='settings_as_video', verbose_name='Turbibliotek-tema')
@@ -171,7 +169,7 @@ class Instructor(models.Model):
         (3, 'hjelpeinstruktør'),
         (4, 'annet'),
     ]
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=False, blank=False, related_name='instructor_set')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False, related_name='instructor_set')
     type = models.IntegerField(choices=TYPES, default=0)
 
     class Meta:
@@ -184,7 +182,7 @@ class Instructor(models.Model):
 
 
 class SpotifyToken(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=False, related_name='spotify_token')
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=False, related_name='spotify_token')
     info = models.TextField(null=True, blank=True)
 
     def __str__(self):
