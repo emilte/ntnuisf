@@ -8,11 +8,15 @@ on:
 
 env:
   PIPENV_VENV_IN_PROJECT: 1
-  ENV: development
-  SECRET_KEY: NOT SET
+  ENV: development # environment determines which settings to use
+  SECRET_KEY: NOT SET # django
+  SITE_ID: 1 # django-allauth
+
+  # auto-create superuser
   DJANGO_SUPERUSER_USERNAME: admin
   DJANGO_SUPERUSER_PASSWORD: Django123
   DJANGO_SUPERUSER_EMAIL: admin@example.com
+
 
 jobs:
 
