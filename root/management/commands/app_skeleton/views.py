@@ -1,7 +1,7 @@
 # imports
-import typing
 from http import HTTPStatus
 
+from django.http import HttpRequest
 from django.views import View
 from django.contrib import messages
 from django.shortcuts import get_object_or_404, render
@@ -15,11 +15,10 @@ from . import models
 
 User = get_user_model()
 
-if typing.TYPE_CHECKING:
-    from django.http import HttpRequest
 # End: imports -----------------------------------------------------------------
 
 
+# samsung: UE55H6204AKXXE
 @method_decorator([login_required], name='dispatch')
 class ExampleView(View):
     template = 'app_skeleton/example.html'
@@ -31,7 +30,7 @@ class ExampleView(View):
         return render(request, self.template, {'example': example})
 
     @permission_required(['create_example', 'change_example'])
-    def post(self, request: HttpRequest, example_id: int = None, *args, **kwargs):
+    def post(self, request: HttpRequest, example_id: int = None, *args, **kwargs):  # pylint: disable=keyword-arg-before-vararg
         example = None
         if example_id:
             example = get_object_or_404(models.Example, id=example_id)

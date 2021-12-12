@@ -3,7 +3,6 @@ import json
 
 from django.db import models
 from django.utils import timezone
-from django.contrib.auth import models as auth_models
 from django.contrib.auth.models import AbstractUser, Group, PermissionsMixin
 
 # End: imports -----------------------------------------------------------------

@@ -13,7 +13,7 @@ USER_PW = 'Django123'
 
 class Command(BaseCommand):
 
-    def createsu(self):
+    def createsu(self):  # pylint: disable=no-self-use
         spinner = Halo('Creating superuser')
         spinner.start()
         email = 'admin@admin.com'
@@ -29,14 +29,14 @@ class Command(BaseCommand):
         spinner.succeed(f'Creating superuser. email: {email}, password: {USER_PW}')
         # End: createsu
 
-    def create_staff(self):
+    def create_staff(self):  # pylint: disable=no-self-use
         spinner = Halo('Creating a staff user')
         spinner.start()
         email = 'staff@staff.com'
         User.objects.create_user(email=email, password=USER_PW, first_name='Staff', last_name='Staffski', is_staff=True, phone_number='87654321')
         spinner.succeed(f'Creating staff user. email: {email}, password: {USER_PW}')
 
-    def create_user(self):
+    def create_user(self):  # pylint: disable=no-self-use
         spinner = Halo('Creating a user')
         spinner.start()
         email = 'user@user.com'

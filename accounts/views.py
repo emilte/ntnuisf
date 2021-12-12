@@ -79,8 +79,7 @@ class EditProfileViewCopy(View):
         if form.is_valid():
             form.save()
             return redirect('accounts:profile')
-        else:
-            return render(request, self.template, {'form': form})
+        return render(request, self.template, {'form': form})
 
 
 class SignUpView(View):
@@ -184,8 +183,7 @@ class SettingsView(View):
         if form.is_valid():
             user_settings = form.save()
             return redirect('accounts:profile')
-        else:
-            return render(request, self.template, {'form': form, 'themes': themes})
+        return render(request, self.template, {'form': form, 'themes': themes})
 
 
 @method_decorator([login_required, permission_required('accounts.add_theme', login_url='forbidden')], name='dispatch')

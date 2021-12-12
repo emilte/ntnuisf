@@ -9,16 +9,18 @@ from ntnuisf.models.songs import *
 
 # Settings:
 
+# pylint: disable=all
+
 
 class Command(BaseCommand):
 
     def create_themes(self):
-        spinner = Halo("Creating themes")
+        spinner = Halo('Creating themes')
         spinner.start()
         Theme.objects.create(
-            background_color="red",
-            link_color="blue",
-            link_hover_color="yellow",
+            background_color='red',
+            link_color='blue',
+            link_hover_color='yellow',
         )
         spinner.succeed()
 

@@ -19,7 +19,7 @@ class Command(BaseCommand):
             help='Tells Django to NOT prompt the user for input of any kind.',
         )
 
-    def confirmation(self):
+    def confirmation(self):  # pylint: disable=no-self-use
         answer = None
         yes = ['yes', 'y']
         no = ['no', 'n']
@@ -55,6 +55,6 @@ class Command(BaseCommand):
                 shutil.rmtree(pycache)
                 print(f'Removed {pycache}')
 
-            except Exception as e:
+            except Exception as _e:  # pylint: disable=broad-except
                 pass
-                # print(f'{app} failed. {e}')
+                # print(f'{app} failed. {_e}')

@@ -1,12 +1,14 @@
 # imports
+from django.conf import settings
 from django.core.management.base import BaseCommand
+
 # End: imports -----------------------------------------------------------------
 
 
+# pylint: disable=all
 class Command(BaseCommand):
 
-    def f(self):
-        from django.conf import settings
+    def f(self):  # pylint: disable=no-self-use
         print(settings.SITE_ID)
 
     def handle(self, *args, **options):

@@ -14,7 +14,7 @@ class Command(BaseCommand):
             management.call_command('SITE_ID')
             # management.call_command('flush', interactive=False)
             management.call_command('myseed')
-        except Exception as e:
+        except Exception as e:  # pylint: disable=broad-except
             print(e)
 
         # End of handle

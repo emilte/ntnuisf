@@ -28,11 +28,14 @@ class BPMFilter(admin.SimpleListFilter):
         if self.value() == 'fast':
             return queryset.filter(bpm__gte=76)
 
+        return queryset
+
 
 # End: filters -----------------------------------------------------------------
 
 
 # managers:
+@admin.register(Song)
 class SongAdmin(admin.ModelAdmin):
     list_display = ['title', 'artist', 'bpm']
     list_filter = [BPMFilter, 'tags']
@@ -42,6 +45,7 @@ class SongAdmin(admin.ModelAdmin):
     filter_horizontal = ['tags']
 
 
+@admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):
     list_display = ['title', 'context']
     search_fields = ['title', 'context']
@@ -51,7 +55,4 @@ class TagAdmin(admin.ModelAdmin):
 
 # End: managers ----------------------------------------------------------------
 
-# Register your models here.
-admin.site.register(Song, SongAdmin)
-admin.site.register(Tag, TagAdmin)
 # admin.site.register(File)

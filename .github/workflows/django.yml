@@ -40,4 +40,4 @@ jobs:
       run: python -m pipenv run python manage.py cleanstart --noinput
     
     - name: Run pylint
-      run: python -m pipenv run pylint accounts root
+      run: python -m pipenv run pylint accounts root ntnuisf

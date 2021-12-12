@@ -1,20 +1,13 @@
 # imports
-import typing
-
 from django.db import models
 from django.conf import settings
 from django.utils import timezone
-from django.contrib.auth import models as auth_models
 from django.contrib.auth import get_user_model
-
 from django.contrib.auth.models import Group
 
 from root import models as root_models
 
 User = get_user_model()
-
-if typing.TYPE_CHECKING:
-    pass
 # End: imports -----------------------------------------------------------------
 
 
@@ -57,4 +50,4 @@ class GroupMembership(models.Model):
         ordering = ['date_joined']
 
     def __str__(self):
-        return f'Membership: {self.user} {str(self.group)}'
+        return f'Membership: {self.example} {str(self.group)}'

@@ -13,7 +13,7 @@ USER_PW = 'Django123'
 
 class Command(BaseCommand):
 
-    def createsu(self):
+    def createsu(self):  # pylint: disable=no-self-use
         spinner = Halo('Creating superuser')
         spinner.start()
         email = 'admin@admin.com'

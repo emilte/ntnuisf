@@ -1,10 +1,10 @@
 from django.contrib import admin
 
-from ..models.courses import Section, Course
+from ..models.courses import CourseSection, Course
 
 
-@admin.register(Section)
-class SectionAdmin(admin.ModelAdmin):
+@admin.register(CourseSection)
+class CourseSectionAdmin(admin.ModelAdmin):
     list_display = ['title', 'course', 'nr']
     list_display_links = ['title', 'course']
     ordering = ['course', 'nr']

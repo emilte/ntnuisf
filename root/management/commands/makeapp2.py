@@ -1,13 +1,9 @@
 # imports
 import shutil
-import typing
+from pathlib import PosixPath
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
-
-if typing.TYPE_CHECKING:
-    from pathlib import PosixPath
-
 # End: imports -----------------------------------------------------------------
 
 
@@ -20,7 +16,7 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        appname: str = options['appname']
+        _appname: str = options['appname']
         workspace: PosixPath = settings.BASE_DIR.parent
         print(1, workspace)
 

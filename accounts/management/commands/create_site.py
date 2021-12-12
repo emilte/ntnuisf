@@ -10,29 +10,32 @@ from allauth.socialaccount import app_settings, providers
 
 # End: imports -----------------------------------------------------------------
 
+# pylint: disable=all
+
+
 class Command(BaseCommand):
 
     def show_sites(self):
-        print("Showing existing sites")
+        print('Showing existing sites')
         for s in site_models.Site.objects.all():
-            print(f"{s.domain} with id: {s.id}")
+            print(f'{s.domain} with id: {s.id}')
 
     def localhost(self):
-        domain = "localhost:8000"
+        domain = 'localhost:8000'
         site, created = site_models.Site.objects.get_or_create(name=domain, domain=domain)
-        print(f"site created: {created}")
-        print(f"Site: {site.domain} ({site.id})")
+        print(f'site created: {created}')
+        print(f'Site: {site.domain} ({site.id})')
 
         try:
             from django.conf import settings
 
             socialapp, created = socialaccount_models.SocialApp.objects.get_or_create(
-                provider="google",
+                provider='google',
                 name='Google',
                 client_id=settings.GOOGLE_CLIENT_ID,
                 secret=settings.GOOGLE_CLIENT_SECRET,
             )
-            print(f"socialapp created: {created}")
+            print(f'socialapp created: {created}')
             socialapp.sites.add(site)
             socialapp.save()
 
@@ -42,22 +45,21 @@ class Command(BaseCommand):
             print(e)
 
     def create_site(self):
-        domain = input("Domain: ")
+        domain = input('Domain: ')
         site, created = site_models.Site.objects.get_or_create(name=domain, domain=domain)
-        print(f"site created: {created}")
-        print(f"Site: {site.domain} ({site.id})")
-
+        print(f'site created: {created}')
+        print(f'Site: {site.domain} ({site.id})')
 
         try:
             from django.conf import settings
 
             socialapp, created = socialaccount_models.SocialApp.objects.get_or_create(
-                provider="google",
+                provider='google',
                 name='Google',
                 client_id=settings.GOOGLE_CLIENT_ID,
                 secret=settings.GOOGLE_CLIENT_SECRET,
             )
-            print(f"socialapp created: {created}")
+            print(f'socialapp created: {created}')
             socialapp.sites.add(site)
             socialapp.save()
 

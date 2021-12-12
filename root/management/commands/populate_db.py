@@ -11,16 +11,16 @@ class Command(BaseCommand):
     OBS: This will drop the database, makemigrations and migrate.
     """
 
-    def reset_db(self):
+    def reset_db(self):  # pylint: disable=no-self-use
         management.call_command('reset_db')
         print()
 
-    def make_migrations(self):
+    def make_migrations(self):  # pylint: disable=no-self-use
         print('Making migrations')
         management.call_command('makemigrations')
         print()
 
-    def migrate(self):
+    def migrate(self):  # pylint: disable=no-self-use
         print('Applying migrations')
         management.call_command('migrate')
         print()

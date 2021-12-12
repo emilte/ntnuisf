@@ -56,7 +56,7 @@ def recursive_creation(structure, appname, path):
         Each folder has another layer of structure.
 
     appname: string
-        - A name to use instead of "appname" in structures
+        - A name to use instead of 'appname' in structures
 
     path: string
         - current working directory
@@ -65,17 +65,17 @@ def recursive_creation(structure, appname, path):
     for item in structure:
         if isinstance(item, dict):
             folder = list(item.keys())[0]
-            foldername = appname if folder == "appname" else folder
+            foldername = appname if folder == 'appname' else folder
             newpath = path / foldername
             try:
                 os.mkdir(newpath)
-            except Exception:
+            except Exception:  # pylint: disable=broad-except
                 pass
 
             recursive_creation(item[folder], appname, newpath)
         else:
             filepath = path / item
-            open(filepath, 'a', encoding='utf-8').close()
+            open(filepath, 'a', encoding='utf-8').close()  # pylint: disable=consider-using-with
 
 
 class Command(BaseCommand):
@@ -89,7 +89,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
 
         appname = options['appname']
-        management.call_command("startapp", appname)
+        management.call_command('startapp', appname)
 
         path = settings.BASE_DIR / appname
         recursive_creation(app_structure, appname, path)
