@@ -1,11 +1,12 @@
 # imports
 from django import forms
 from django.db import models
-from django.conf import settings
 from django.utils import timezone
 from django.contrib import admin
 from django.contrib.auth import models as auth_models
+from django.contrib.auth import get_user_model
 
+User = get_user_model()
 # End: imports -----------------------------------------------------------------
 
 # https://github.com/django/django/blob/master/django/forms/models.py
@@ -65,23 +66,11 @@ class CustomBaseAdmin(admin.ModelAdmin):
 
 class CustomBaseModel(models.Model):
     last_editor = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        editable=False,
-        related_name='editor_%(class)s_set',
-        verbose_name='Sist redigert av'
+        User, on_delete=models.SET_NULL, null=True, blank=True, editable=False, related_name='editor_%(class)s_set', verbose_name='Sist redigert av'
     )
     last_edited = models.DateTimeField(null=True, blank=True, editable=False, verbose_name='Sist redigert')
     creator = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        editable=False,
-        related_name='creator_%(class)s_set',
-        verbose_name='Opprettet av'
+        User, on_delete=models.SET_NULL, null=True, blank=True, editable=False, related_name='creator_%(class)s_set', verbose_name='Opprettet av'
     )
     created = models.DateTimeField(null=True, blank=True, editable=False, verbose_name='Opprettet')
 

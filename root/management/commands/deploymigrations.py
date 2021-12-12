@@ -1,8 +1,4 @@
 # imports
-import os
-import glob
-
-from django.conf import settings
 from django.core import management
 from django.core.management.base import BaseCommand
 
@@ -20,7 +16,7 @@ class Command(BaseCommand):
             help='Tells Django to NOT prompt the user for input of any kind.',
         )
 
-    def confirmation(self):
+    def confirmation(self):  # pylint: disable=no-self-use
         answer = None
         yes = ['yes', 'y']
         no = ['no', 'n']

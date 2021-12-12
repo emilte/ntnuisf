@@ -1,8 +1,8 @@
 # imports
-import spotipy.oauth2 as oauth2
+import spotipy
 
 from django.conf import settings
-from django.http import HttpRequest, HttpResponse
+from django.http import HttpRequest
 from django.views import View
 from django.contrib import messages
 from django.shortcuts import render, redirect
@@ -19,7 +19,7 @@ from django.contrib.auth.decorators import (
     permission_required,
 )
 
-from wiki import views as wiki_views
+from ntnuisf.views import wiki as wiki_views
 
 from . import (
     forms as account_forms,
@@ -43,7 +43,7 @@ class ProfileViewCopy(View):
     template = 'accounts/profile copy.html'
 
     def get(self, request: HttpRequest, *args, **kwargs):
-        courses = request.user.getCourses()
+        courses = request.user.get_courses()
         return render(request, self.template, {'courses': courses})
 
 
@@ -79,8 +79,7 @@ class EditProfileViewCopy(View):
         if form.is_valid():
             form.save()
             return redirect('accounts:profile')
-        else:
-            return render(request, self.template, {'form': form})
+        return render(request, self.template, {'form': form})
 
 
 class SignUpView(View):
@@ -184,38 +183,32 @@ class SettingsView(View):
         if form.is_valid():
             user_settings = form.save()
             return redirect('accounts:profile')
-        else:
-            return render(request, self.template, {'form': form, 'themes': themes})
+        return render(request, self.template, {'form': form, 'themes': themes})
 
 
-addTheme_dec = [login_required, permission_required('accounts.add_theme', login_url='forbidden')]
-
-
-@method_decorator(addTheme_dec, name='dispatch')
+@method_decorator([login_required, permission_required('accounts.add_theme', login_url='forbidden')], name='dispatch')
 class AddTheme(wiki_views.GenericAddModel):
     template = 'accounts/theme_form.html'
     form_class = account_forms.ThemeForm
     redirect_name = 'accounts:settings'
 
 
-editTheme_dec = [login_required, permission_required('accounts.change_theme', login_url='forbidden')]
-
-
+@method_decorator([login_required, permission_required('accounts.change_theme', login_url='forbidden')], name='dispatch')
 class EditTheme(wiki_views.GenericEditModel):
     template = 'accounts/theme_form.html'
     form_class = account_forms.ThemeForm
     redirect_name = 'accounts:settings'
     model = account_models.Theme
 
-    def get(self, request: HttpRequest, modelID, *args, **kwargs):
-        if request.user != self.model.objects.get(id=modelID).user:
+    def get(self, request: HttpRequest, model_id, *args, **kwargs):
+        if request.user != self.model.objects.get(id=model_id).user:
             return redirect('forbidden')
-        return super().get(request, modelID, *args, **kwargs)
+        return super().get(request, model_id, *args, **kwargs)
 
-    def post(self, request: HttpRequest, modelID, *args, **kwargs):
-        if request.user != self.model.objects.get(id=modelID).user:
+    def post(self, request: HttpRequest, model_id, *args, **kwargs):
+        if request.user != self.model.objects.get(id=model_id).user:
             return redirect('forbidden')
-        return super().post(request, modelID, *args, **kwargs)
+        return super().post(request, model_id, *args, **kwargs)
 
 
 class SpotifyConnectView(View):
@@ -224,7 +217,7 @@ class SpotifyConnectView(View):
     def post(self, request: HttpRequest, *args, **kwargs):
 
         cache_path = settings.SPOTIFY_CACHE_PATH + '.spotify-token-' + request.user.email
-        sp_oauth = oauth2.SpotifyOAuth(
+        sp_oauth = spotipy.SpotifyOAuth(
             settings.SPOTIFY_CLIENT_ID, settings.SPOTIFY_CLIENT_SECRET, settings.SPOTIFY_REDIRECT_URI, scope=settings.SPOTIFY_SCOPE, cache_path=cache_path
         )
 
@@ -244,7 +237,7 @@ class SpotifyConnectView(View):
 
 def callback(request):
     response = request.build_absolute_uri()
-    sp_oauth = oauth2.SpotifyOAuth(settings.SPOTIFY_CLIENT_ID, settings.SPOTIFY_CLIENT_SECRET, settings.SPOTIFY_REDIRECT_URI, scope=settings.SPOTIFY_SCOPE)
+    sp_oauth = spotipy.SpotifyOAuth(settings.SPOTIFY_CLIENT_ID, settings.SPOTIFY_CLIENT_SECRET, settings.SPOTIFY_REDIRECT_URI, scope=settings.SPOTIFY_SCOPE)
 
     sp_token, _created = account_models.SpotifyToken.objects.get_or_create(user=request.user)
 

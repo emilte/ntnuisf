@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -26,6 +27,17 @@ ALLOWED_HOSTS = []
 STATIC_URL = '/static/'
 STATIC_ROOT = 'staticroot'
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = 'mediaroot'
+
+# URLs
+LOGIN_REDIRECT_URL = 'accounts:profile'
+LOGIN_URL = 'accounts:login'
+LOGOUT_REDIRECT_URL = 'accounts:login'
+
+# Custom User model
+AUTH_USER_MODEL = 'accounts.User'
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -33,7 +45,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'accounts',
     'root',  # register to enable management.commands
+    'ntnuisf',
 ]
 
 MIDDLEWARE = [
@@ -44,7 +58,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    # 'django_user_agents.middleware.UserAgentMiddleware',  # django-user-agents
 ]
 
 STATICFILES_FINDERS = [
@@ -74,7 +87,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'root.wsgi.application'
 
-# compressor / django-libsass:
+### compressor / django-libsass ###
 # INSTALLED_APPS += [
 #     'compressor',
 # ]
@@ -86,7 +99,7 @@ WSGI_APPLICATION = 'root.wsgi.application'
 # ]
 # End: compressor / django-libsass --------------------------------------------------------------
 
-# django-debug-toolbar:
+### django-debug-toolbar ###
 INSTALLED_APPS += [
     'debug_toolbar',
 ]
@@ -102,7 +115,89 @@ INTERNAL_IPS = [
 DEBUG_TOOLBAR_CONFIG = {
     'SHOW_COLLAPSED': True,
 }
-# End: django-debug-toolbar --------------------------------------------------------------
+### End: django-debug-toolbar --------------------------------------------------------------
+
+### django-allauth ###
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+
+ACCOUNT_USER_MODEL_USERNAME_FIELD = 'username'
+ACCOUNT_USERNAME_REQUIRED = True
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_LOGOUT_ON_GET = True
+
+INSTALLED_APPS += [
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+]
+
+SITE_ID = int(os.environ['SITE_ID'])
+### End: django-allauth --------------------------------------------------------------
+
+### user-agents ###
+
+# INSTALLED_APPS += [
+#     'django_user_agents',  # Recognises devices and touch capabilities
+# ]
+
+# # Cache backend is optional, but recommended to speed up user agent parsing
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+#         'LOCATION': '127.0.0.1:11211',
+#     }
+# }
+
+# MIDDLEWARE += [
+#     'django_user_agents.middleware.UserAgentMiddleware',
+# ]
+
+# # Name of cache backend to cache user agents. If it not specified default
+# # cache alias will be used. Set to `None` to disable caching.
+# USER_AGENTS_CACHE = 'default'
+### End: user-agents --------------------------------------------------------------
+
+### django-extensions ###
+
+### End: django-extensions --------------------------------------------------------------
+
+### TinyMCE ###
+# INSTALLED_APPS += [
+#     'tinymce',  # For HTMLField (obsolete, tinyMCE is used another way)
+# ]
+# also in urlpatterns
+### End: TinyMCE --------------------------------------------------------------
+
+### django-select2 ###
+# INSTALLED_APPS += [
+#     'django_select2',  # For improved ChoiceField widgets
+# ]
+### End: django-select2 --------------------------------------------------------------
+
+### django-seed ###
+# INSTALLED_APPS += [
+#     'django_seed',  # Seed database easily
+# ]
+### End: django-seed --------------------------------------------------------------
+
+### ??? ###
+# INSTALLED_APPS += [
+#     '???',
+# ]
+### End: ??? --------------------------------------------------------------
+
+### django-extensions ###
+# INSTALLED_APPS += [
+#     'django_extensions',  # Extended CLI commands
+# ]
+### End: django-extensions --------------------------------------------------------------
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators

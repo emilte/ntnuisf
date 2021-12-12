@@ -22,7 +22,7 @@ urlpatterns = [
     path('profile/delete/', views.DeleteUserView.as_view(), name='delete_user'),
     path('profile/settings/', views.SettingsView.as_view(), name='settings'),
     path('profile/settings/theme/add/', views.AddTheme.as_view(), name='add_theme'),
-    path('profile/settings/theme/edit/<int:modelID>/', views.EditTheme.as_view(), name='edit_theme'),
+    path('profile/settings/theme/edit/<int:model_id>/', views.EditTheme.as_view(), name='edit_theme'),
 
     # path('logout/', views.LogoutUserView.as_view(), name='logout'),
     #path('logout/', logout, {'template_name':'songs/home.html'}, name='logout'),

@@ -1,7 +1,6 @@
 # imports
-import typing
-
 from django import forms
+from django.http import HttpRequest
 from django.db.models import Q
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
@@ -12,9 +11,6 @@ from .models import (
 )
 
 User = get_user_model()
-
-if typing.TYPE_CHECKING:
-    from django.http import HttpRequest
 
 # End: imports -----------------------------------------------------------------
 
