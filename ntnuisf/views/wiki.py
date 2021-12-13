@@ -102,15 +102,9 @@ class GenericEditModel(GenericAddModel):
             return render(request, self.template, {'form': form, 'model_id': model_id})
 
 
-dashboard_dec = [
-    login_required,
-    # permission_required('wiki.change_page', login_url='forbidden')
-]
-
-
-@method_decorator(dashboard_dec, name='dispatch')
+@method_decorator([login_required], name='dispatch')
 class Dashboard(View):
-    template = 'wiki/dashboard2.html'
+    template = 'ntnuisf/wiki/dashboard2.html'
 
     def get(self, request: HttpRequest):
         # messages.info(request, 'OBS: Under utvikling')
@@ -137,7 +131,7 @@ page_view_dec = [
 
 @method_decorator(page_view_dec, name='dispatch')
 class PageView(View):
-    template = 'wiki/page_view3.html'
+    template = 'ntnuisf/wiki/page_view3.html'
 
     def get(self, request: HttpRequest, model_id):
 
@@ -167,45 +161,33 @@ class PageView(View):
         )
 
 
-add_page_dec = [login_required, permission_required('wiki.create_page', login_url='forbidden')]
-
-
-@method_decorator(add_page_dec, name='dispatch')
+@method_decorator([login_required, permission_required('wiki.create_page', login_url='forbidden')], name='dispatch')
 class AddPage(GenericAddModel):
-    template = 'wiki/page_form.html'
+    template = 'ntnuisf/wiki/page_form.html'
     form_class = wiki_forms.PageForm
-    redirect_name = 'wiki:page_view'
+    redirect_name = 'ntnuisf:wiki:page_view'
     redirect_id = 'id'
 
 
-edit_page_dec = [login_required, permission_required('wiki.change_page', login_url='forbidden')]
-
-
-@method_decorator(edit_page_dec, name='dispatch')
+@method_decorator([login_required, permission_required('wiki.change_page', login_url='forbidden')], name='dispatch')
 class EditPage(GenericEditModel):
-    template = 'wiki/page_form.html'
+    template = 'ntnuisf/wiki/page_form.html'
     form_class = wiki_forms.PageForm
-    redirect_name = 'wiki:page_view'
+    redirect_name = 'ntnuisf:wiki:page_view'
     redirect_id = 'id'
     model = wiki_models.Page
 
 
-add_folder_dec = [login_required, permission_required('wiki.create_folder', login_url='forbidden')]
-
-
-@method_decorator(add_folder_dec, name='dispatch')
+@method_decorator([login_required, permission_required('wiki.create_folder', login_url='forbidden')], name='dispatch')
 class AddFolder(GenericAddModel):
-    template = 'wiki/folder_form.html'
+    template = 'ntnuisf/wiki/folder_form.html'
     form_class = wiki_forms.FolderForm
-    redirect_name = 'wiki:dashboard'
+    redirect_name = 'ntnuisf:wiki:dashboard'
 
 
-edit_folder_dec = [login_required, permission_required('wiki.change_folder', login_url='forbidden')]
-
-
-@method_decorator(edit_folder_dec, name='dispatch')
+@method_decorator([login_required, permission_required('wiki.change_folder', login_url='forbidden')], name='dispatch')
 class EditFolder(GenericEditModel):
-    template = 'wiki/folder_form.html'
+    template = 'ntnuisf/wiki/folder_form.html'
     form_class = wiki_forms.FolderForm
-    redirect_name = 'wiki:dashboard'
+    redirect_name = 'ntnuisf:wiki:dashboard'
     model = wiki_models.Folder

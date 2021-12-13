@@ -24,14 +24,14 @@
 
     <!-- Other stylesheets -->
     {% compress css  %}
-      <link rel="stylesheet" type="text/x-scss" href="{% static 'root/scss/base.scss' %}"/>
-      <link rel="stylesheet" type="text/x-scss" href="{% static 'root/scss/mdb_animations.scss' %}"/>
+      <link rel="stylesheet" type="text/x-scss" href="{% static "root/scss/base.scss" %}"/>
+      <link rel="stylesheet" type="text/x-scss" href="{% static "root/scss/mdb_animations.scss" %}"/>
       {% if ENV == DEV %}
-      <link rel="stylesheet" type="text/x-scss" href='{% static "root/scss/dev.scss" %}'>
+      <link rel="stylesheet" type="text/x-scss" href="{% static "root/scss/dev.scss" %}">
       {% endif %}
     {% endcompress %}
     
-    <link rel="shortcut icon" type="image/png" href="{% static 'root/img/favicon-32x32.png' %}"/>
+    <link rel="shortcut icon" type="image/png" href="{% static "root/img/favicon-32x32.png" %}"/>
 
 
     <!-- select2 (requires: .js file) -->
@@ -159,12 +159,12 @@
 
     <!-- Begin: base script -->
     <script type="text/javascript">
-        /*
-        Note: '$' is short for using JQuery. Ensure that JQuery has been imported before using '$'.
-        Note: Wait for ready document (meaning all elements have loaded on screen). This
-        enhances user experience because visual confirmation is prioritized over functionality.
-        */
         $(document).ready(function() {
+            /*
+          Note: '$' is short for using JQuery. Ensure that JQuery has been imported before using '$'.
+          Note: Wait for ready document (meaning all elements have loaded on screen). This
+          enhances user experience because visual confirmation is prioritized over functionality.
+          */
 
             // Note: Enables user to remove Django messages on top of page
             $('.btn-message-remove').on('click', function() {

@@ -1,0 +1,15 @@
+{% extends 'ntnuisf/base.html' %}
+{% block title %}Om oss{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{% url 'ntnuisf:info:about' %}">Om oss</a></li>
+{% endblock %}
+
+{% block body %}
+    <h1> {{ section.title }} </h1>
+    <div class="white-box">
+        {% autoescape off %}
+            {{ section.text }}
+        {% endautoescape %}
+    </div>
+{% endblock %}

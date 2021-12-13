@@ -35,7 +35,7 @@ django-seed = "*"
 faker = "==2.0.5"
 django-flatpickr = "*"
 python-slugify = "*"
+django-libsass = "*"
 
 [requires]
 python_version = "3.9.7"
-

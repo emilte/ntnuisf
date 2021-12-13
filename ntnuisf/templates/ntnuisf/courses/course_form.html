@@ -1,0 +1,422 @@
+{% extends 'ntnuisf/base.html' %}
+{% block title %}Kurs{% endblock %}
+
+{% load static %}
+
+{% block head %}
+    <script type="text/javascript" src="{% url 'ntnuisf:songs:javascript-catalog' %}"></script>
+
+    {{ course_form.media }}
+
+    {{ section_form_template.media.css }}
+
+    <link rel="stylesheet" href="{% static "ntnuisf/courses/css/course_styles.css" %}">
+
+    <style media="screen">
+        .selector select::-webkit-scrollbar {
+            width: 0.4em;
+        }
+        .selector select::-webkit-scrollbar-thumb {
+            background-color: rgba(0,0,0,1);
+            border-radius: 10px;
+        }
+        .selector select::-webkit-scrollbar-track {
+            background-color: white;
+            border-radius: 10px;
+        }
+        .selector-available, .selector-chosen {
+            width: 200px;
+        }
+        .selector h2 {
+            font-size: 1.1em;
+            color: white !important;
+            background: rgba(255, 255, 255, 0.4) !important;
+        }
+        .selector select {
+            width: inherit;
+            height: 3.8em !important;
+            color: white;
+            background: rgba(255, 255, 255, 0.4);
+        }
+        .selector ul.selector-chooser {
+            margin: 2.5em 5px 0 5px;
+        }
+        .selector .selector-filter, .selector .help-icon {
+            display: none;
+        }
+
+        .default-theme {
+            padding-top: 0.5em;
+            padding-bottom: 0.2em;
+            margin-bottom: 0.5em;
+            position: relative;
+        }
+        .select2-container {
+            color: black !important;
+        }
+
+        .body-wrapper {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .section-btn-up {
+            position: absolute;
+            top: 24px;
+            right: 5px;
+        }
+        .section-btn-down {
+            position: absolute;
+            top: 75px;
+            right: 5px;
+        }
+        .section-btn-remove {
+            position: absolute;
+            bottom: 16px;
+            right: 5px;
+        }
+        .section-btn-duplicate {
+            position: absolute;
+            bottom: 56px;
+            right: 5px;
+        }
+        {{ request.user.settings.course_theme.as_css }}
+
+    </style>
+{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{% url 'ntnuisf:courses:all_courses' %}">Alle kurs</a></li>
+    {% if course_id %}
+        <li class="breadcrumb-item"><a href="{% url 'ntnuisf:courses:edit_course' course_id %}">Rediger kurs</a></li>
+    {% else %}
+        <li class="breadcrumb-item"><a href="{% url 'ntnuisf:courses:add_course' %}">Opprett kurs</a></li>
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+
+    <div class="body-wrapper rounded p-3">
+
+        {% if course_id %}
+            <div class="h2">
+                Rediger kurs:
+            </div>
+        {% else %}
+            <div class="h2">
+                Opprett kurs:
+            </div>
+        {% endif %}
+
+
+        {{ course_form.non_field_errors }}
+
+        <form method="post">
+            {% csrf_token %}
+
+            <div id="course_form">
+
+                <div class="row">
+                    <div class="form-group col-md-4">
+                        {{ course_form.title.label_tag }}
+                        {{ course_form.title }}
+                    </div>
+                    <div class="form-group col-md-5">
+                        {{ course_form.place.label_tag }}
+                        {{ course_form.place }}
+                    </div>
+                    <div class="text-danger">
+                        {{ course_form.title.errors }}
+                        {{ course_form.place.errors }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-2">
+                        {{ course_form.date.label_tag }}
+                        {{ course_form.date }}
+                    </div>
+                    <div class="form-group col-md-2">
+                        {{ course_form.start.label_tag }}
+                        {{ course_form.start }}
+                    </div>
+                    <div class="form-group col-md-2">
+                        {{ course_form.end.label_tag }}
+                        {{ course_form.end }}
+                    </div>
+                </div>
+                <div class="text-danger">
+                    {{ course_form.date.errors }}
+                    {{ course_form.start.errors }}
+                    {{ course_form.end.errors }}
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-1">
+                        {{ course_form.bulk.label_tag }}
+                        {{ course_form.bulk }}
+                    </div>
+                    <div class="form-group col-md-1">
+                        {{ course_form.day.label_tag }}
+                        {{ course_form.day }}
+                    </div>
+                    <div class="col-md-1">
+                        {{ course_form.external.label_tag }}
+                        {{ course_form.external }}
+                    </div>
+                </div>
+                <div class="text-danger">
+                    {{ course_form.bulk.errors }}
+                    {{ course_form.day.errors }}
+                </div>
+
+                <div class="row mb-1">
+                    <div class="form-group col-md-4">
+                        {{ course_form.lead.label_tag }}
+                        {{ course_form.lead }}
+                        {{ course_form.lead.errors }}
+                    </div>
+                    <div class="form-group col-md-4">
+                        {{ course_form.follow.label_tag }}
+                        {{ course_form.follow }}
+                        {{ course_form.follow.errors }}
+                    </div>
+                </div>
+
+                <div class="row ml-5">
+                    {{ course_form.tags }}
+                </div>
+                <a class="btn btn-secondary btn-sm text-light" target="_blank" href="{% url 'ntnuisf:songs:add_tag' %}"><i class="lni-tag"></i> Ny tag</a>
+            </div>
+
+            <br>
+
+            <div id="dynamic-sections">
+
+                <input id="sectionCount" type="hidden" readonly name="sectionCount" value="{{ section_forms | length }}">
+
+                {% for section_form in section_forms %}
+
+                    <div id="section" class="jumbotron default-theme user-theme mt-3">
+
+                        <input type="hidden" name="prefix" value="{{ section_form.prefix }}">
+
+                        <div class="row">
+
+                            <div class="col-10">
+
+                                <div class="row">
+                                    <div class="form-group col-md">
+                                        {{ section_form.title.label_tag }}
+                                        {{ section_form.title }}
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        {{ section_form.duration.label_tag }}
+                                        {{ section_form.duration }}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md">
+                                        {{ section_form.song.label_tag }}
+                                        <a class="btn btn-success text-light btn-sm" target="_blank" href="{% url 'ntnuisf:songs:add_song' %}"><i class="lni-spotify-original"></i> Ny sang</a>
+                                        <span class="small font-italic">Obs: Må lagre og refreshe</span>
+                                        {{ section_form.song }}
+                                    </div>
+                                    <div class="form-group col-md">
+                                        {{ section_form.song2.label_tag }}
+                                        {{ section_form.song2 }}
+                                    </div>
+                                </div>
+                                <div class="bg-danger rounded">
+                                    {{ section_form.title.errors }}
+                                    {{ section_form.duration.errors }}
+                                    {{ section_form.song.errors }}
+                                    {{ section_form.song2.errors }}
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md">
+                                        {{ section_form.description.label_tag }}
+                                        {{ section_form.description }}
+                                        {{ section_form.description.errors }}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-2">
+                                <button class="btn btn-dark section-btn-up btn-sm" type="button" name="button">Opp</button>
+                                <button class="btn btn-dark section-btn-down btn-sm" type="button" name="button">Ned</button>
+                                <button class="btn btn-dark section-btn-remove btn-sm" type="button" name="button">Fjern</button>
+                            </div>
+
+                        </div>
+                    </div>
+                {% endfor %}
+
+            </div>
+
+            <button class="btn btn-dark border text-light border-warning" id="section-btn-add" type="button" name="button" >
+                <img src="https://img.icons8.com/material-rounded/25/FFAA00/plus-math.png">
+                Legg til ny del
+            </button>
+
+            <div class="row mt-4">
+                <div class="form-group col-md-6">
+                    {{ course_form.comments.label_tag }}
+                    {{ course_form.comments }}
+                    {{ course_form.comments.errors }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 mt-4">
+                    <button type="button" class="btn btn-dark btn-block text-light" onclick="window.history.back()">Avbryt</button>
+                </div>
+                <div class="col mt-4">
+                    <button type="submit" class="btn btn-secondary btn-block text-light">Lagre</button>
+                </div>
+            </div>
+        </form>
+
+
+        <!-- TEMPLATE -->
+        <div id="section_form_template" class="d-none">
+
+            <div id="section" class="jumbotron default-theme user-theme mt-3">
+
+                <input type="hidden" name="prefix" value="template">
+
+                <div class="row">
+
+                    <div class="col-10">
+
+                        <div class="row">
+                            <div class="form-group col-md">
+                                {{ section_form_template.title.label_tag }}
+                                {{ section_form_template.title }}
+                            </div>
+                            <div class="form-group col-md-2">
+                                {{ section_form_template.duration.label_tag }}
+                                {{ section_form_template.duration }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md">
+                                {{ section_form_template.song.label_tag }}
+                                <a class="btn btn-success text-light btn-sm" target="_blank" href="{% url 'ntnuisf:songs:add_song' %}"><i class="lni-spotify-original"></i> Ny sang</a>
+                                <span class="small font-italic">Obs: Må lagre og refreshe</span>
+                                {{ section_form_template.song }}
+                            </div>
+                            <div class="form-group col-md">
+                                {{ section_form_template.song2.label_tag }}
+                                {{ section_form_template.song2 }}
+                            </div>
+                        </div>
+                        <div class="bg-danger rounded">
+                            {{ section_form_template.title.errors }}
+                            {{ section_form_template.duration.errors }}
+                            {{ section_form_template.song.errors }}
+                            {{ section_form_template.song2.errors }}
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md">
+                                {{ section_form_template.description.label_tag }}
+                                {{ section_form_template.description }}
+                                {{ section_form_template.description.errors }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-2">
+                        <button class="btn btn-dark section-btn-up btn-sm" type="button" name="button">Opp</button>
+                        <button class="btn btn-dark section-btn-down btn-sm" type="button" name="button">Ned</button>
+                        <button class="btn btn-dark section-btn-remove btn-sm" type="button" name="button">Fjern</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div> <!-- END: body-wrapper -->
+
+{% endblock %}
+
+{% block script %}
+
+    {{ section_form_template.media.js }}
+
+    <script type="text/javascript">
+
+        var tinymceConfig = {
+            selector: "textarea.tinymce",
+            plugins: 'advlist autoresize autosave codesample emoticons help lists print searchreplace tabfocus textpattern',
+            menubar: 'file edit insert view format tools table help',
+            toolbar: 'undo redo | fontselect | fontsizeselect | bold italic underline | forecolor | backcolor | removeformat | numlist bullist',
+            min_height: 50,
+            max_height: 600,
+            toolbar_sticky: false,
+            autosave_ask_before_unload: true,
+            autosave_interval: "30s",
+            autosave_prefix: "{path}{query}-{id}-",
+            autosave_restore_when_empty: false,
+            autosave_retention: "2m",
+            tabfocus_elements: ":prev,:next",
+            toolbar_items_size: "small",
+        }
+
+
+        tinymce.init(tinymceConfig);
+
+        $(document).ready(function() {
+            var section_form_template = $("#section_form_template").html();
+            $("#section_form_template").remove();
+
+            function sleep(time) {
+                return new Promise((resolve) => setTimeout(resolve, time));
+            }
+
+            $('body').on("click", "#section-btn-add", function() {
+                $("#sectionCount").val( +$("#sectionCount").val() + 1)
+                $("#dynamic-sections").append( section_form_template.replace(/template/g, $("#sectionCount").val()) )
+                sleep(10).then(() => tinymce.init(tinymceConfig) );
+            })
+
+            $('body').on("click", ".section-btn-remove", function() {
+                tinymce.remove();
+                var s = $(this).closest("#section");
+                $("#sectionCount").val( +$("#sectionCount").val() - 1);
+                s.remove();
+                sleep(10).then(() => tinymce.init(tinymceConfig) );
+            });
+
+            $('body').on("click", ".section-btn-up", function() {
+                tinymce.remove();
+                var s = $(this).closest("#section");
+                s.insertBefore( s.prev() );
+                sleep(10).then(() => tinymce.init(tinymceConfig) );
+            });
+
+            $('body').on("click", ".section-btn-down", function() {
+                tinymce.remove();
+                var s = $(this).closest("#section");
+                s.insertAfter( s.next() );
+                sleep(10).then(() => tinymce.init(tinymceConfig) );
+            });
+
+            $('body').on("click", ".section-btn-duplicate", function() {
+                tinymce.remove();
+                var s = $(this).closest("#section");
+                var c = s.clone();
+                $("#sectionCount").val( +$("#sectionCount").val() + 1)
+                // console.log(s);
+                // console.log(c);
+
+                c.find("input[name=prefix]").val( $("#sectionCount").val() );
+                console.log(c.find("input[name=prefix]").val( ));
+                c.insertAfter( s );
+                $("#dynamic-sections").append( section_form_template.replace(/template/g, $("#sectionCount").val()) )
+
+                console.log($("#sectionCount").val());
+                sleep(10).then(() => tinymce.init(tinymceConfig) );
+            });
+
+        })
+    </script>
+{% endblock script %}

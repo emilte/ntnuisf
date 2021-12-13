@@ -1,0 +1,33 @@
+{% extends 'ntnuisf/base.html' %}
+{% load static %}
+
+{% block title %}Tag{% endblock %}
+
+{% block head %}
+
+    <link rel="stylesheet" href="{% static "ntnuisf/videos/css/video_styles.css" %}">
+
+    <style>
+        {{ request.user.settings.video_theme.as_css }}
+    </style>
+{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{% url 'ntnuisf:videos:add_video_tag' %}">Legg til VideoTag</a></li>
+{% endblock %}
+
+{% block body %}
+    <div class="default-theme user-theme">
+
+        <h1>VideoTag:</h1>
+
+        <form class="form-inline" method="post">
+            {% csrf_token %}
+
+            {{ form.title }}
+            {{ form.title.errors }}
+            <button class="btn btn-dark" type="submit">Lagre</button>
+
+        </form>
+    </div>
+{% endblock %}
