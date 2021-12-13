@@ -23,7 +23,7 @@ from ..models.courses import Course, CourseSection
 
 @method_decorator([login_required, permission_required('courses.add_course', login_url='forbidden')], name='dispatch')
 class AddCourseView(View):
-    template = 'courses/course_form.html'
+    template = 'ntnuisf/courses/course_form.html'
     course_form_class: CourseForm = CourseForm
     section_form_class: SectionForm = SectionForm
 
@@ -77,7 +77,7 @@ class AddCourseView(View):
 
 @method_decorator([login_required, permission_required('courses.change_course', login_url='forbidden')], name='dispatch')
 class EditCourseView(View):
-    template = 'courses/course_form.html'
+    template = 'ntnuisf/courses/course_form.html'
     course_form_class: CourseForm = CourseForm
     section_form_class: SectionForm = SectionForm
 
@@ -143,7 +143,7 @@ allCourses_dec = [login_required, permission_required('courses.view_course', log
 
 @method_decorator(allCourses_dec, name='dispatch')
 class AllCoursesView(View):
-    template = 'courses/all_courses.html'
+    template = 'ntnuisf/courses/all_courses.html'
     form: CourseFilterForm = CourseFilterForm
 
     def get(self, request: HttpRequest):
@@ -190,7 +190,7 @@ class AllCoursesView(View):
 
 @method_decorator([login_required, permission_required('courses.view_course', login_url='forbidden')], name='dispatch')
 class CourseView(View):
-    template = 'courses/course_view.html'
+    template = 'ntnuisf/courses/course_view.html'
 
     def get(self, request: HttpRequest, course_id: int):
         course: Course = Course.objects.get(id=course_id)

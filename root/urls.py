@@ -10,10 +10,11 @@ import debug_toolbar
 
 urlpatterns = [
     path('admin/', admin.site.urls, name='admin'),
-    path('ntnuisf', include('ntnuisf.urls')),
+    path('', include('ntnuisf.urls')),
     path('jsi18n/', JavaScriptCatalog.as_view(), name='javascript-catalog'),
     path('tinymce/', include('tinymce.urls')),
-    path('accounts/', include('allauth.urls')),
+    path('accounts/', include('accounts.urls')),
+    path('allauth/', include('allauth.urls')),
     path('select2/', include('django_select2.urls')),
 ]
 

@@ -41,16 +41,10 @@ def update_songs_txt(song: Song, title=None):
 # End: Functions ---------------------------------------------------------------
 
 
-class HomeView(View):
-    template = 'songs/home.html'
-
-    def get(self, request):
-        return render(request, self.template)
-
 
 @method_decorator([login_required], name='dispatch')
 class AddSongView(View):
-    template = 'songs/song_form.html'
+    template = 'ntnuisf/songs/song_form.html'
     form_class = SongForm
 
     def get(self, request):
@@ -69,7 +63,7 @@ class AddSongView(View):
 
 @method_decorator([login_required, permission_required('songs.change_song', login_url='forbidden')], name='dispatch')
 class EditSongView(View):
-    template = 'songs/song_form.html'
+    template = 'ntnuisf/songs/song_form.html'
     form_class = SongForm
 
     def get(self, request, song_id):
@@ -89,7 +83,7 @@ class EditSongView(View):
 
 @method_decorator([login_required], name='dispatch')
 class AllSongsView(View):
-    template = 'songs/all_songs.html'
+    template = 'ntnuisf/songs/all_songs.html'
     form_class = SongSearchForm
 
     def get(self, request):
@@ -124,10 +118,7 @@ class AllSongsView(View):
         return queryset
 
 
-@method_decorator([
-    login_required,
-    permission_required('songs.delete_song', login_url='forbidden'),
-], name='dispatch')
+@method_decorator([login_required, permission_required('songs.delete_song', login_url='forbidden')], name='dispatch')
 class DeleteSongView(View):
 
     def post(self, request, song_id):
@@ -138,21 +129,15 @@ class DeleteSongView(View):
 
 class BPMView(View):
     # https://github.com/selwin/django-user_agents
-    template = 'songs/bpm_calc.html'
+    template = 'ntnuisf/songs/bpm_calc.html'
 
     def get(self, request):
         return render(request, self.template)
 
-
-class ForbiddenView(View):
-    template = 'songs/forbidden.html'
-
-    def get(self, request):
-        return render(request, self.template)
 
 
 class AddTag(View):
-    template = 'songs/tag_form.html'
+    template = 'ntnuisf/songs/tag_form.html'
     form_class = TagForm
 
     def get(self, request):
@@ -168,7 +153,7 @@ class AddTag(View):
 
 
 class EditTag(View):
-    template = 'songs/tag_form.html'
+    template = 'ntnuisf/songs/tag_form.html'
     form_class = TagForm
 
     def get(self, request, tag_id):
@@ -187,7 +172,7 @@ class EditTag(View):
 
 
 class AllTags(View):
-    template = 'songs/all_tags.html'
+    template = 'ntnuisf/songs/all_tags.html'
 
     def get(self, request):
         tags = Tag.objects.all()

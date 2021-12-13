@@ -33,7 +33,7 @@ def video_search_filter(form, queryset):
 
 @method_decorator([login_required, permission_required('videos.create_video', login_url='forbidden')], name='dispatch')
 class AddVideo(View):
-    template = 'videos/video_form.html'
+    template = 'ntnuisf/videos/video_form.html'
     form_class = VideoForm
 
     def get(self, request: HttpRequest):
@@ -56,7 +56,7 @@ edit_video_dec = [login_required, permission_required('videos.change_video', log
 
 @method_decorator(edit_video_dec, name='dispatch')
 class EditVideo(View):
-    template = 'videos/video_form.html'
+    template = 'ntnuisf/videos/video_form.html'
     form_class = VideoForm
 
     def get(self, request: HttpRequest, video_id: int):
@@ -81,7 +81,7 @@ view_video_dec = [login_required, permission_required('videos.view_video', login
 
 @method_decorator(view_video_dec, name='dispatch')
 class AllVideos(View):
-    template = 'videos/all_videos.html'
+    template = 'ntnuisf/videos/all_videos.html'
     form_class = VideoFilterForm
 
     def get(self, request: HttpRequest):
@@ -111,7 +111,7 @@ view_video_dec = [login_required, permission_required('videos.view_video', login
 
 @method_decorator(view_video_dec, name='dispatch')
 class VideoView(View):
-    template = 'videos/video_view.html'
+    template = 'ntnuisf/videos/video_view.html'
 
     def get(self, request: HttpRequest, video_id: int):
         video = Video.objects.get(id=video_id)

@@ -1,4 +1,4 @@
-{% extends 'songs/base.html' %}
+{% extends 'ntnuisf/base.html' %}
 {% block title %}{{ request.user }}{% endblock %}
 {% load static %}
 
@@ -66,7 +66,7 @@
                     <div class="tab-pane fade" id="event-panel" role="tabpanel" aria-labelledby="event-tab">
                         {% for event in request.user.events.all %}
                             <div class="">
-                                <a href="{% url 'events:event_view' event.id %}">{{ event }}</a>
+                                <a href="{% url 'ntnuisf:events:event_view' event.id %}">{{ event }}</a>
                             </div>
                         {% endfor %}
                     </div>
@@ -74,7 +74,7 @@
                         <div class="tab-pane fade show active" id="course-panel" role="tabpanel" aria-labelledby="course-tab">
                             {% for course in request.user.get_courses %}
                                 <div class="">
-                                    <a href="{% url 'courses:course_view' course.id %}">{{ course }}</a>
+                                    <a href="{% url 'ntnuisf:courses:course_view' course.id %}">{{ course }}</a>
                                 </div>
                             {% endfor %}
                         </div>
@@ -94,7 +94,7 @@
                     <div class="overflow-auto default-theme user-theme rounded-top p-3">
                         {% for course in courses %}
                             <div class="">
-                                <a href="{% url 'courses:course_view' course.id %}">{{ course }}</a>
+                                <a href="{% url 'ntnuisf:courses:course_view' course.id %}">{{ course }}</a>
                             </div>
                         {% endfor %}
                     </div>

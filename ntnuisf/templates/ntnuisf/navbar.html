@@ -1,0 +1,110 @@
+<!-- Navbar -->
+{% load static %}
+<nav style="padding: 0px 0px 0px 20px" class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+
+    <a style="padding: 0px; margin: 0px 30px 0px 0px" class="navbar-brand" href="{% url 'ntnuisf:index' %}">
+        <img style="filter: invert(1)" width="150" src="{% static "ntnuisf/common/img/swing-logo.png" %}" alt="">
+    </a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+
+    <div id="navbar" class="collapse navbar-collapse mr-auto">
+        <ul class="navbar-nav mr-auto">
+
+            <!--
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Menu
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="{% url 'ntnuisf:info:external' %}">Eksterne kurs</a>
+                    <a class="dropdown-item" href="{% url 'ntnuisf:info:english' %}">Information in English</a>
+                    <a class="dropdown-item" href="{% url 'ntnuisf:info:contact' %}">Kontakt oss</a>
+                    <a class="dropdown-item" href="{% url 'ntnuisf:info:about' %}">Om oss</a>
+                    <a class="dropdown-item" href="{% url 'ntnuisf:info:hall_times' %}">Treningstider</a>
+                    <a class="dropdown-item" href="{% url 'ntnuisf:info:faq' %}">FAQ</a>
+                </div>
+            </li>
+            -->
+
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'ntnuisf:events:all_events' %}">
+                    {# <img src="https://img.icons8.com/ios/24/FFFFFF/69.png"> #}
+                    {# <i class="lni-timer"></i> #}
+                    <i class="lni-calendar"></i>
+                    Events
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'ntnuisf:wiki:dashboard' %}">
+                    {# <img src="https://img.icons8.com/ios/24/FFFFFF/69.png"> #}
+                    <i class="lni-library"></i>
+                    Wiki
+                </a>
+            </li>
+
+            {% if perms.songs.view_songs %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'ntnuisf:songs:all_songs' %}">
+                        {# <img src="https://img.icons8.com/ios/24/FFFFFF/music.png"> #}
+                        <i class="lni-spotify-original"></i>
+                        Musikk
+                    </a>
+                </li>
+            {% endif %}
+
+            {% if perms.video.view_video %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'ntnuisf:videos:all_videos' %}">
+                        <i class="lni-youtube"></i>
+                        Turbibliotek
+                    </a>
+                </li>
+            {% endif %}
+
+            {% if perms.course.view_course %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'ntnuisf:courses:all_courses' %}">
+                        {# <img src="https://img.icons8.com/wired/24/FFFFFF/planner.png"> #}
+                        <i class="lni-control-panel"></i>
+                        Kurs
+                    </a>
+                </li>
+            {% endif %}
+
+            {% if request.user.is_staff %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'admin:index' %}">
+                        {# <img src="https://img.icons8.com/ios-filled/24/FFFFFF/microsoft-admin.png"> #}
+                        <i class="lni-protection"></i>
+                        Admin
+                    </a>
+                </li>
+            {% endif %}
+
+        </ul>
+        {% if user.is_authenticated %}
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a id="navbar-user" class="nav-link text-light" href="{% url 'accounts:profile' %}">
+                        {# <img src="https://img.icons8.com/ios-glyphs/24/009900/user--v1.png"> #}
+                        <i class="lni-user"></i>
+                        {{ user.email }}
+                    </a>
+                </li>
+            </ul>
+        {% else %}
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'accounts:login' %}">Logg inn</a>
+                </li>
+            </ul>
+        {% endif %}
+
+
+    </div>
+</nav> <!-- End: navbar -->

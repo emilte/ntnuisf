@@ -194,9 +194,9 @@ SITE_ID = int(os.environ['SITE_ID'])
 ### End: ??? --------------------------------------------------------------
 
 ### django-extensions ###
-# INSTALLED_APPS += [
-#     'django_extensions',  # Extended CLI commands
-# ]
+INSTALLED_APPS += [
+    'django_extensions',  # Extended CLI commands
+]
 ### End: django-extensions --------------------------------------------------------------
 
 # Password validation

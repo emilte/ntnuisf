@@ -14,7 +14,7 @@ from ..models import events as event_models
 
 @method_decorator([login_required, permission_required('events.add_event', login_url='forbidden')], name='dispatch')
 class AddEventView(wiki_views.GenericAddModel):
-    template = 'events/event_form.html'
+    template = 'ntnuisf/events/event_form.html'
     form_class = event_forms.EventForm
     redirect_name = 'events:event_view'
     redirect_id = 'id'
@@ -22,7 +22,7 @@ class AddEventView(wiki_views.GenericAddModel):
 
 @method_decorator([login_required, permission_required('events.change_event', login_url='forbidden')], name='dispatch')
 class EditEventView(wiki_views.GenericEditModel):
-    template = 'events/event_form.html'
+    template = 'ntnuisf/events/event_form.html'
     form_class = event_forms.EventForm
     redirect_name = 'events:event_view'
     redirect_id = 'id'
@@ -31,7 +31,7 @@ class EditEventView(wiki_views.GenericEditModel):
 
 @method_decorator([login_required], name='dispatch')
 class AllEventsView(View):
-    template = 'events/all_events.html'
+    template = 'ntnuisf/events/all_events.html'
     form = event_forms.EventFilterForm
 
     def get(self, request: HttpRequest):
@@ -75,7 +75,7 @@ class AllEventsView(View):
 
 @method_decorator([login_required], name='dispatch')
 class EventView(View):
-    template = 'events/event_view.html'
+    template = 'ntnuisf/events/event_view.html'
 
     def get(self, request: HttpRequest, event_id):
         event = event_models.Event.objects.get(id=event_id)
