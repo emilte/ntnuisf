@@ -88,15 +88,15 @@ TEMPLATES = [
 WSGI_APPLICATION = 'root.wsgi.application'
 
 ### compressor / django-libsass ###
-# INSTALLED_APPS += [
-#     'compressor',
-# ]
+INSTALLED_APPS += [
+    'compressor',
+]
 
-# COMPRESS_PRECOMPILERS = (('text/x-scss', 'django_libsass.SassCompiler'), )
+COMPRESS_PRECOMPILERS = (('text/x-scss', 'django_libsass.SassCompiler'), )
 
-# STATICFILES_FINDERS += [
-#     'compressor.finders.CompressorFinder',
-# ]
+STATICFILES_FINDERS += [
+    'compressor.finders.CompressorFinder',
+]
 # End: compressor / django-libsass --------------------------------------------------------------
 
 ### django-debug-toolbar ###
